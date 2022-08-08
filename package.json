@@ -20,4 +20,5 @@
     "@adiwajshing/baileys": "^4.2.0",
     "pino": "^7.0.5",
     "qrcode-terminal": "^0.12.0"
+  }
 }
