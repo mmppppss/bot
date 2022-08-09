@@ -10,7 +10,6 @@ const qrcode = require('qrcode-terminal')
 
 const { state, saveState } = useSingleFileAuthState('./session.json')
 
-const { menu } = require('./Modules/hola.js')
 
 const prefix = '.'
 
