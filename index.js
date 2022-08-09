@@ -59,5 +59,4 @@ break
 
 
 
-connectToWA()
 
