@@ -81,7 +81,7 @@ const connectToWA = () => {
 			switch (command) {
 
 case 'hola':
- var teks = `Hola`
+ ${menu}
 break
 
    default:
