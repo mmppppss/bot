@@ -70,7 +70,7 @@ const connectToWA = () => {
 			const isMe = botNumber.includes(senderNumber)
 			const isOwner = ownerNumber.includes(senderNumber) || isMe
 		
-		const senderNumber = v.sender.split('@')[0]
+		const senderNumber = sender.split('@')[0]
 			
 			const reply = async(teks) => {
 				await conn.sendMessage(from, { text: teks }, { quoted: mek })
