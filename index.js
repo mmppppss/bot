@@ -78,13 +78,6 @@ reply(`hola ${pushname} como estas:v`)
 break
 
 
-					if (body.startsWith('>')) {
-						try {
-							reply(util.format(await eval(`(async () => {${body.slice(1)}})()`)))
-						} catch(e) {
-							reply(util.format(e))
-						}
-					}
 
 			}
 			
