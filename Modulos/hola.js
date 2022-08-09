@@ -1,3 +1,3 @@
-exports.menu = (v) => {
-  return `hola`
-}
+import "./index.js"
+
+reply ('hola')
