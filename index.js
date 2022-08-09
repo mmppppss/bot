@@ -12,8 +12,9 @@ const { exec } = require('child_process')
 
 const { state, saveState } = useSingleFileAuthState('./session.json')
 
+const { menu } = require('./Modulos/hola.js')
 
-const prefix = ['/.-_']
+const prefix = '.'
 
 const ownerNumber = [
   '34643694252',
