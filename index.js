@@ -8,12 +8,11 @@ const {
 const fs = require('fs')
 const P = require('pino')
 const qrcode = require('qrcode-terminal')
-const conn
 
 
 	
 	
-	conn.ev.on('messages.upsert', async(mek) => {
+
 		try {
 			mek = mek.messages[0]
 			if (!mek.message) return
@@ -58,4 +57,3 @@ break
 			
 			console.log(isError)
 		}
-	})
