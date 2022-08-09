@@ -79,10 +79,6 @@ case 'hola':
   ${menu}
 break
 
-case 'owner':
-  replyContact('34643694252')
-  break
-
 
 
 			}
