@@ -74,7 +74,7 @@ const connectToWA = () => {
 			switch (command) {
 
 case 'hola':
-start('./Modulos/hola.js')
+reply(`hola ${pushName} como estas:v`)
 break
 
 			}
