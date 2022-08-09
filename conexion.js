@@ -12,6 +12,8 @@ const { state, saveState } = useSingleFileAuthState('./session.json')
 
 const prefix = '.'
 
+import "index.js"
+
 const ownerNumber = [
   '34643694252',
   '59167786908'
