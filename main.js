@@ -2,7 +2,6 @@ const { default: makeWASocket, useSingleFileAuthState, DisconnectReason, makeInM
 const P = require('pino')
 const { exec } = require('child_process')
 const fs = require('fs')
-const hx = require('hxz-api')
 const util = require('util')
 const yts = require('yt-search')
 
