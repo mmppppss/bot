@@ -13,7 +13,7 @@ const qrcode = require('qrcode-terminal')
 	
 
 
-const connectToWA = () => {
+
 	const conn = makeWASocket
 	
 	
@@ -67,6 +67,5 @@ break
 		}
 	})
 
-}
 
 connectToWA()
