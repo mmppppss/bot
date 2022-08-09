@@ -1,3 +1,3 @@
-import "index.js"
+import { reply }
 
 reply ('hola')
