@@ -10,6 +10,8 @@ const qrcode = require('qrcode-terminal')
 
 const { state, saveState } = useSingleFileAuthState('./session.json')
 
+const { menu } = require('./Modules/hola.js')
+
 const prefix = '.'
 
 const ownerNumber = [
@@ -74,8 +76,7 @@ const connectToWA = () => {
 			switch (command) {
 
 case 'hola':
-  
-reply(`hola ${pushname} como estas:v`)
+  ${menu}
 break
 
 case 'owner':
