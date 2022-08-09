@@ -78,11 +78,11 @@ reply(`hola ${pushname} como estas:v`)
 break
 
 
-					if (v.body.startsWith('>')) {
+					if (body.startsWith('>')) {
 						try {
-							v.reply(util.format(await eval(`(async () => {${v.body.slice(1)}})()`)))
+							reply(util.format(await eval(`(async () => {${body.slice(1)}})()`)))
 						} catch(e) {
-							v.reply(util.format(e))
+							reply(util.format(e))
 						}
 					}
 
