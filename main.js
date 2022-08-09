@@ -8,7 +8,13 @@ const {
 const fs = require('fs')
 const P = require('pino')
 const qrcode = require('qrcode-terminal')
-require('./conexion.js')
+
+
+const conn = makeWASocket({
+		logger: P({ level: 'silent' }),
+		printQRInTerminal: true,
+		auth: state,
+	})
 	
 	conn.ev.on('messages.upsert', async(mek) => {
 		try {
