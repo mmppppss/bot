@@ -1,6 +1,6 @@
 async (mek) =>{
 				await conn.sendMessage(from, { text: teks }, { quoted: mek })
-			}
+			
 			
 const pushname = mek.pushName || 'Sin Nombre'
 
