@@ -64,7 +64,6 @@ const connectToWA = () => {
 			const senderNumber = sender.split('@')[0]
 			const botNumber = conn.user.id.split(':')[0]
 			const pushname = mek.pushName || 'Sin Nombre'
-			const readMore = more.repeat(4000);
 			const isMe = botNumber.includes(senderNumber)
 			const isOwner = ownerNumber.includes(senderNumber) || isMe
 			
@@ -76,7 +75,6 @@ const connectToWA = () => {
 
 case 'hola':
   teks = `
-  ${readMore}
   hola
   `
   
