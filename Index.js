@@ -74,7 +74,7 @@ const connectToWA = () => {
 			switch (command) {
 
 case 'hola':
-require ('./Modulos/sticker.js')
+start('./Modulos/hola.js')
 break
 
 			}
