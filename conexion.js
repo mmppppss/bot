@@ -34,6 +34,7 @@ const connectToWA = () => {
 		}
 	})
 	
+	conn.ev.on('creds.update', saveState)
 
 }
 
