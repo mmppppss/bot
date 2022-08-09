@@ -1,9 +1,6 @@
 const { default: makeWASocket, useSingleFileAuthState, DisconnectReason, makeInMemoryStore, getContentType } = require('@adiwajshing/baileys')
 const P = require('pino')
-const { exec } = require('child_process')
 const fs = require('fs')
-const util = require('util')
-const yts = require('yt-search')
 
 
 
