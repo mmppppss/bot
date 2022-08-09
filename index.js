@@ -12,7 +12,7 @@ const qrcode = require('qrcode-terminal')
 
 	
 	
-
+module.export = async(mek) => {
 		try {
 			mek = mek.messages[0]
 			if (!mek.message) return
@@ -57,3 +57,4 @@ break
 			
 			console.log(isError)
 		}
+})
