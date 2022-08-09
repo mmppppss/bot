@@ -76,8 +76,11 @@ const connectToWA = () => {
 			switch (command) {
 
 case 'hola':
+  teks = `
   ${readMore}
   reply(`hola ${pushname} como estas? v:`)
+  `
+  
 break
 
 
