@@ -55,7 +55,7 @@ break
 			
 			console.log(isError)
 		}
-	})
+	}
 
 }
 
