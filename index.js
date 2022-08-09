@@ -15,6 +15,7 @@ const prefix = '.'
 const ownerNumber = ['595995660558']
 
 
+require('./conexion.js')
 
 
 const connectToWA = () => {
