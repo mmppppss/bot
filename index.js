@@ -69,11 +69,7 @@ const connectToWA = () => {
 			const pushname = mek.pushName || 'Sin nombre'
 			const isMe = botNumber.includes(senderNumber)
 			const isOwner = ownerNumber.includes(senderNumber) || isMe
-			
-			const replyTempImg = (teks, footer, buttons = [], img) => {
-			mek.sendMessage(chat, { image: img, caption: teks, footer: footer, templateButtons: buttons })
-		}
-		const sender = isGroup ? mek.participant : mek.key.remoteJid;
+		
 			
 			const reply = async(teks) => {
 				await conn.sendMessage(from, { text: teks }, { quoted: mek })
