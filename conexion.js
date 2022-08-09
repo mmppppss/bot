@@ -36,8 +36,6 @@ const connectToWA = () => {
 	
 	conn.ev.on('creds.update', saveState)
 	
-	conn.ev.on('creds.update', saveState)
-	
 	conn.ev.on('messages.upsert', async(mek) => {
 		try {
 			mek = mek.messages[0]
@@ -70,13 +68,7 @@ const connectToWA = () => {
 				await conn.sendMessage(from, { text: teks }, { quoted: mek })
 			}
 			
-			switch (command) {
 
-case 'hola':
-reply(`Hola ${pushname} como estas? :v`)
-break
-
-			}
 			
 		} catch (e) {
 			const isError = String(e)
