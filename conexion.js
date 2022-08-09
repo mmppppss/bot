@@ -13,7 +13,7 @@ const { state, saveState } = useSingleFileAuthState('./session.json')
 const prefix = '.'
 const ownerNumber = ['595995660558']
 
-require('./main.js')
+require('./index.js')
 
 
 const connectToWA = () => {
