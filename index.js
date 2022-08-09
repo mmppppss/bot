@@ -70,7 +70,6 @@ const connectToWA = () => {
 			const isMe = botNumber.includes(senderNumber)
 			const isOwner = ownerNumber.includes(senderNumber) || isMe
 		
-		const senderNumber = sender.split('@')[0]
 			
 			const reply = async(teks) => {
 				await conn.sendMessage(from, { text: teks }, { quoted: mek })
@@ -79,7 +78,7 @@ const connectToWA = () => {
 			switch (command) {
 
 case 'hola':
- reply(`hola ${senderNumber} como estas?`)
+ reply(`hola ${pushname} como estas?`)
 break
 
    default:
