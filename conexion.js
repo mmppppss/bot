@@ -10,6 +10,7 @@ const qrcode = require('qrcode-terminal')
 
 const { state, saveState } = useSingleFileAuthState('./session.json')
 
+const prefix = '.'
 
 require('./index.js')
 
