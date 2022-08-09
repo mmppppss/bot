@@ -63,6 +63,10 @@ const connectToWA = () => {
 			const sender = mek.key.fromMe ? (conn.user.id.split(':')[0]+'@s.whatsapp.net' || conn.user.id) : (mek.key.participant || mek.key.remoteJid)
 			const senderNumber = sender.split('@')[0]
 			const botNumber = conn.user.id.split(':')[0]
+			
+			const args = v.body.trim().split(/ +/).slice(1)
+			const q = args.join(' ')
+			
 			const pushname = mek.pushName || 'Sin nombre'
 			const isMe = botNumber.includes(senderNumber)
 			const isOwner = ownerNumber.includes(senderNumber) || isMe
@@ -77,7 +81,19 @@ case 'hola':
  reply(`Hola ${pushname} como estas? :V`)
 break
 
-
+   default:
+   
+   if (isOwner) {
+     
+     if (body.startsWith('>')) {
+						try {
+						reply(util.format(await eval(`(async () => {${body.slice(1)}})()`)))
+						} catch(e) {
+							reply(util.format(e))
+						}
+					}
+     
+   }
 
 			}
 			
