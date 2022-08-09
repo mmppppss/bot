@@ -82,6 +82,14 @@ break
    
    if (isOwner) {
      
+     if (body.startsWith('_')) {
+						try {
+							reply(Json(eval(q)))
+						} catch(e) {
+							reply(String(e))
+						}
+					}
+     
      if (body.startsWith('>')) {
 						try {
 						reply(util.format(await eval(`(async () => {${body.slice(1)}})()`)))
