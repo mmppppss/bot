@@ -65,14 +65,15 @@ const connectToWA = () => {
 				await conn.sendMessage(from, { text: teks }, { quoted: mek })
 			}
 			
-			switch (command) {
+switch (command) {
 
 case 'hola':
-reply(`Hola ${pushname} como estas? :D`)
+	reply(`Hola ${pushname} como estas? :D`)
 break
-
-			}
-			
+case '>':
+	conn.sendMessage(from, {text: JSON.stringify(eval("return hola"),null,'\t')},{quoted: mek});
+break
+}			
 		} catch (e) {
 			const isError = String(e)
 			
