@@ -78,7 +78,7 @@ const connectToWA = () => {
 case 'hola':
   teks = `
   ${readMore}
-  reply(`hola ${pushname} como estas? v:`)
+  hola
   `
   
 break
