@@ -9,7 +9,7 @@ const fs = require('fs')
 const P = require('pino')
 const qrcode = require('qrcode-terminal')
 
-
+require('conexion.js')
 	
 	
 module.export = async(mek) => {
