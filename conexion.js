@@ -14,7 +14,7 @@ const prefix = '.'
 const ownerNumber = ['595995660558']
 
 require('./main.js')
-nocache('./main.js', module => console.log('El archivo main.js ha sido actualizado'))
+
 
 const connectToWA = () => {
 	const conn = makeWASocket({
