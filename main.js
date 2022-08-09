@@ -12,7 +12,7 @@ const qrcode = require('qrcode-terminal')
 
 const conn = makeWASocket
 	
-	conn.ev.on('messages.upsert', async(mek) => {
+	conn.('messages.upsert', async(mek) => {
 		try {
 			mek = mek.messages[0]
 			if (!mek.message) return
