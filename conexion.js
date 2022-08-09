@@ -5,6 +5,9 @@ const {
 	DisconnectReason,
 	getContentType
 } = require('@adiwajshing/baileys')
+
+const { state, saveState } = useSingleFileAuthState('./session.json')
+
 const fs = require('fs')
 const P = require('pino')
 const qrcode = require('qrcode-terminal')

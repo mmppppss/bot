@@ -15,7 +15,7 @@ const prefix = '.'
 const ownerNumber = ['59167786908']
 
 const connectToWA = () => {
-	require("conexion.js")
+	require("./conexion.js")
 	conn.ev.on('messages.upsert', async(mek) => {
 		try {
 			mek = mek.messages[0]
