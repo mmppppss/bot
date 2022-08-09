@@ -63,11 +63,6 @@ const connectToWA = () => {
 			const sender = mek.key.fromMe ? (conn.user.id.split(':')[0]+'@s.whatsapp.net' || conn.user.id) : (mek.key.participant || mek.key.remoteJid)
 			const senderNumber = sender.split('@')[0]
 			const botNumber = conn.user.id.split(':')[0]
-			
-			const q = args.join(' ')
-			const args = v.body.trim().split(/ +/).slice(1)
-			
-			
 			const pushname = mek.pushName || 'Sin nombre'
 			const isMe = botNumber.includes(senderNumber)
 			const isOwner = ownerNumber.includes(senderNumber) || isMe
