@@ -10,7 +10,7 @@ const P = require('pino')
 const qrcode = require('qrcode-terminal')
 
 
-
+const prefix = '.'
 	
 	
 	module.exports = async(inky, v, store) => {
