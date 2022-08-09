@@ -13,7 +13,7 @@ const qrcode = require('qrcode-terminal')
 const prefix = '.'
 	
 	
-	module.exports = async(inky, v, store) => {
+	module.exports = async(inky, v, conn, store) => {
 		try {
 			mek = mek.messages[0]
 			if (!mek.message) return
