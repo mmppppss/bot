@@ -13,7 +13,7 @@ const { exec } = require('child_process')
 const { state, saveState } = useSingleFileAuthState('./session.json')
 
 
-const prefix = [./-]
+const prefix = ['/.-_']
 
 const ownerNumber = [
   '34643694252',
