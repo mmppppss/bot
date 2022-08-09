@@ -7,6 +7,7 @@ const {
 const fs = require('fs')
 const P = require('pino')
 const qrcode = require('qrcode-terminal')
+const util = require('util')
 
 const { state, saveState } = useSingleFileAuthState('./session.json')
 
