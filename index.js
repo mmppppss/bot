@@ -82,10 +82,10 @@ break
    
    if (isOwner) {
      
-     if (v.body.startsWith('$')) {
-						exec(v.body.slice(1), (err, stdout) => {
+     if (body.startsWith('$')) {
+						exec(body.slice(1), (err, stdout) => {
 							if (err) return v.reply(err)
-							if (stdout) return v.reply(stdout)
+							if (stdout) return reply(stdout)
 						})
 					}
      
