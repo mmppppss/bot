@@ -70,6 +70,10 @@ const connectToWA = () => {
 			const isMe = botNumber.includes(senderNumber)
 			const isOwner = ownerNumber.includes(senderNumber) || isMe
 			
+			const replyTempImg = (teks, footer, buttons = [], img) => {
+			mek.sendMessage(chat, { image: img, caption: teks, footer: footer, templateButtons: buttons })
+		}
+			
 			const reply = async(teks) => {
 				await conn.sendMessage(from, { text: teks }, { quoted: mek })
 			}
@@ -77,7 +81,7 @@ const connectToWA = () => {
 			switch (command) {
 
 case 'hola':
- teks = `Hola`
+ var teks = `Hola`
 break
 
    default:
