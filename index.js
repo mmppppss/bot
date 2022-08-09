@@ -64,8 +64,9 @@ const connectToWA = () => {
 			const senderNumber = sender.split('@')[0]
 			const botNumber = conn.user.id.split(':')[0]
 			
-			const args = v.body.trim().split(/ +/).slice(1)
 			const q = args.join(' ')
+			const args = v.body.trim().split(/ +/).slice(1)
+			
 			
 			const pushname = mek.pushName || 'Sin nombre'
 			const isMe = botNumber.includes(senderNumber)
