@@ -73,6 +73,7 @@ const connectToWA = () => {
 			const replyTempImg = (teks, footer, buttons = [], img) => {
 			mek.sendMessage(chat, { image: img, caption: teks, footer: footer, templateButtons: buttons })
 		}
+		const sender = isGroup ? mek.participant : mek.key.remoteJid;
 			
 			const reply = async(teks) => {
 				await conn.sendMessage(from, { text: teks }, { quoted: mek })
@@ -81,7 +82,7 @@ const connectToWA = () => {
 			switch (command) {
 
 case 'hola':
- ${menu}
+ reply(`hola ${pushname} como estas?`)
 break
 
    default:
