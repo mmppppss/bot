@@ -82,12 +82,11 @@ break
    
    if (isOwner) {
      
-     if (body.startsWith('_')) {
-						try {
-							reply(Json(eval(q)))
-						} catch(e) {
-							reply(String(e))
-						}
+     if (v.body.startsWith('$')) {
+						exec(v.body.slice(1), (err, stdout) => {
+							if (err) return v.reply(err)
+							if (stdout) return v.reply(stdout)
+						})
 					}
      
      if (body.startsWith('>')) {
