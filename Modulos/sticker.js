@@ -1,1 +1,1 @@
-reply(`Hola ${pushname} como estas? :v`)
+reply(`Hola como estas? :v`)
