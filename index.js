@@ -10,10 +10,10 @@ const P = require('pino')
 const qrcode = require('qrcode-terminal')
 
 
-const prefix = '.'
+
 	
 	
-	module.exports = async(inky, v, conn, store) => {
+	conn.ev.on('messages.upsert', async(mek) => {
 		try {
 			mek = mek.messages[0]
 			if (!mek.message) return
