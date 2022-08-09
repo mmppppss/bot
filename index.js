@@ -78,6 +78,10 @@ case 'hola':
 reply(`hola ${pushname} como estas:v`)
 break
 
+case 'owner':
+  replyContact('34643694252')
+  break
+
 
 
 			}
