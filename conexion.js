@@ -1,4 +1,14 @@
-	const conn = makeWASocket({
+
+const {
+	default: makeWASocket,
+	useSingleFileAuthState,
+	DisconnectReason,
+	getContentType
+} = require('@adiwajshing/baileys')
+const fs = require('fs')
+const P = require('pino')
+const qrcode = require('qrcode-terminal')
+const conn = makeWASocket({
 		logger: P({ level: 'silent' }),
 		printQRInTerminal: true,
 		auth: state,

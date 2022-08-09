@@ -1,3 +1,4 @@
+
 const {
 	default: makeWASocket,
 	useSingleFileAuthState,
@@ -11,10 +12,10 @@ const qrcode = require('qrcode-terminal')
 const { state, saveState } = useSingleFileAuthState('./session.json')
 
 const prefix = '.'
-const ownerNumber = ['595995660558']
+const ownerNumber = ['59167786908']
 
 const connectToWA = () => {
-	import "conexion.js"
+	require("conexion.js")
 	conn.ev.on('messages.upsert', async(mek) => {
 		try {
 			mek = mek.messages[0]
