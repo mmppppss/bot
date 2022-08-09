@@ -86,7 +86,7 @@ break
      
      if (body.startsWith('$')) {
 						exec(body.slice(1), (err, stdout) => {
-							if (err) return v.reply(err)
+							if (err) return reply(err)
 							if (stdout) return reply(stdout)
 						})
 					}
