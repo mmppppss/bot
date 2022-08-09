@@ -1,3 +1,3 @@
-import "./index.js"
+import "index.js"
 
 reply ('hola')
