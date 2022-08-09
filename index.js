@@ -77,7 +77,7 @@ const connectToWA = () => {
 			switch (command) {
 
 case 'hola':
- reply(`Hola ${pushname} como estas? :V`)
+ teks = `Hola`
 break
 
    default:
