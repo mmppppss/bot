@@ -13,7 +13,7 @@ const { state, saveState } = useSingleFileAuthState('./session.json')
 const prefix = '.'
 
 const ownerNumber = [
-  '34643694252',
+  
   '59167786908'
   ]
 
@@ -74,6 +74,7 @@ const connectToWA = () => {
 			switch (command) {
 
 case 'hola':
+ if (!ownerNumber)
 reply(`hola ${pushname} como estas:v`)
 break
 
