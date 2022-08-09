@@ -1,1 +1,3 @@
-hola como estas?:v
+exports.menu = (v) => {
+  return `hola`
+}
