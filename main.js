@@ -10,7 +10,6 @@ const P = require('pino')
 const qrcode = require('qrcode-terminal')
 
 
-conn.ev.on('creds.update', saveState)
 	
 	conn.ev.on('messages.upsert', async(mek) => {
 		try {
