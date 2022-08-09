@@ -16,8 +16,7 @@ const qrcode = require('qrcode-terminal')
 const connectToWA = () => {
 	const conn = makeWASocket({
 		logger: P({ level: 'silent' }),
-		printQRInTerminal: true,
-		auth: state,
+		printQRInTerminal: true
 	})
 	
 	
