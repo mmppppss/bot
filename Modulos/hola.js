@@ -1,2 +1,2 @@
-exports.pushname
-exports.menu = `que tal ${pushname}`
+
+exports.menu = `que tal`
