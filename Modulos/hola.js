@@ -1,1 +1,1 @@
-exports.menu = `hola`
+exports.menu = `que tal`
