@@ -17,8 +17,7 @@ const { menu } = require('./Modulos/hola.js')
 const prefix = '.'
 
 const ownerNumber = [
-  '34643694252'
-  
+  '34643694252' //Lucky-Cv
   ]
 
 
@@ -78,7 +77,7 @@ const connectToWA = () => {
 			switch (command) {
 
 case 'hola':
- reply(`${menu}`
+ reply(`${menu}`)
 break
 
    default:
