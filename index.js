@@ -18,7 +18,7 @@ const prefix = '.'
 
 const ownerNumber = [
   '34643694252'
-  '59167786908'
+  
   ]
 
 
