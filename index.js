@@ -80,10 +80,6 @@ case 'hola':
  reply(`${menu}`)
 break
 
-case 'valencia':
-teks = `jaja`
-break
-
    default:
    
    if (isOwner) {
