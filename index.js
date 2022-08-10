@@ -80,7 +80,7 @@ case 'hola':
  reply(`${menu}`)
 break
 
-case 'valencia':
+case 'valencia'
 teks = `jaja`
 break
 
