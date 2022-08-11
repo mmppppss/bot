@@ -72,10 +72,8 @@ const connectToWA = () => {
 			const isMe = botNumber.includes(senderNumber)
 			const isOwner = ownerNumber.includes(senderNumber) || isMe
 
-const img = () => {
-  fs.readFileSync('./lucky.jpg')
+   const img = fs.readFileSync('./lucky.jpg')
      conn.sendMessage(from, {image: img}, { quoted: '', caption: 'sexo' })
-}
 	
 	const more = String.fromCharCode(8206);
 	const readMore = more.repeat(4000);
