@@ -89,18 +89,13 @@ const connectToWA = () => {
 
 case 'hola':
  reply(`${menu}`)
- a('./lucky.jpg','Lucky-Cv')
+ a(`./lucky.jpg','Lucky-Cv`)
 break
 
 case 'info':
   reply(`${time}`)
 break
 
-case 'img':
-  img = fs.readFileSync('./lucky.jpg')
-     conn.sendMessage(from, {image: img, caption:'hola'}, {})
-
-break
 
 
    default:
