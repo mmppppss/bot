@@ -77,6 +77,10 @@ const connectToWA = () => {
      conn.sendMessage(from, {image: img, caption:text}, {})
 
    }
+   
+   	const replyTempImg = (teks, footer, buttons = [], img) => {
+			inky.sendMessage(v.chat, { image: img, caption: teks, footer: footer, templateButtons: buttons })
+		}
 	
 	const more = String.fromCharCode(8206);
 	const readMore = more.repeat(4000);
@@ -95,6 +99,7 @@ break
 case 'info':
   reply(`${time}`)
 break
+
 
 
 
