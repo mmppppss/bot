@@ -71,7 +71,7 @@ const connectToWA = () => {
 			const isOwner = ownerNumber.includes(senderNumber) || isMe
 		
 		const data = global.owner.filter(([id, isOwner]) => id && isOwner)
-this.sendContact(chat, data.map(([id, name]) => [id, name]), m)
+reply.sendContact(chat, data.map(([id, name]) => [id, name]), m)
 			
 			const reply = async(teks) => {
 				await conn.sendMessage(from, { text: teks }, { quoted: mek })
