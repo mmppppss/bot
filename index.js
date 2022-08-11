@@ -88,7 +88,7 @@ break
 
 case 'img':
   reply(`jajja`);
-  send3ButtonLoc(thumbfg)
+  mek.messages(thumbfg)
 break
 
 
