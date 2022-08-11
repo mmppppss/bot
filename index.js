@@ -72,9 +72,7 @@ const connectToWA = () => {
 			const isMe = botNumber.includes(senderNumber)
 			const isOwner = ownerNumber.includes(senderNumber) || isMe
 	
-    		const text = (hai) => {
-			sendMessage(v.chat, {caption: hai})
-		}
+	  const conn.sendMessage(from, {image: img}, { quoted: '', caption: 'sexo' })
 	
 			const reply = async(teks) => {
 				await conn.sendMessage(from, { text: teks }, { quoted: mek })
@@ -93,14 +91,8 @@ break
 case 'img':
   reply (`hola`)
   img = fs.readFileSync('./lucky.jpg')
-     conn.sendMessage(from, {image: img}, { quoted: '', caption: 'sexo' })
 
 break
-
-case 'menu':
-  hai = ` hola `
-  text(hai)
-  break
 
 
    default:
