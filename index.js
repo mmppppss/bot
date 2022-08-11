@@ -77,7 +77,6 @@ const connectToWA = () => {
 			switch (command) {
 
 case 'hola':
-  if (!isOwner)
  reply(`${menu}`)
 break
 
