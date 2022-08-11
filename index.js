@@ -72,7 +72,7 @@ const connectToWA = () => {
 			const isMe = botNumber.includes(senderNumber)
 			const isOwner = ownerNumber.includes(senderNumber) || isMe
 
-   const img = () => {
+   const a = () => {
      return'holq'
    }
 	
