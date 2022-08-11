@@ -71,7 +71,7 @@ const connectToWA = () => {
 			const isOwner = ownerNumber.includes(senderNumber) || isMe
 		
 		const replyTempImg = (hola = [], img) => {
-			(v.chat, { image: img, caption: hola})
+			(chat, { image: img, caption: hola})
 		}
 			
 			const reply = async(teks) => {
