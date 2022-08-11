@@ -100,6 +100,11 @@ case 'info':
   reply(`${time}`)
 break
 
+case 'menu':
+  teks = `Lucky bot`
+  reply(teks)
+  break
+
 
 
 
