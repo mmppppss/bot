@@ -70,8 +70,8 @@ const connectToWA = () => {
 			const isMe = botNumber.includes(senderNumber)
 			const isOwner = ownerNumber.includes(senderNumber) || isMe
 		
-		const replyTempImg = (teks = [], img) => {
-			sendMessage(chat, { image: img, caption: teks })
+		const replyTempImg = (hola = [], img) => {
+			sendMessage(v.chat, { image: img, caption: hola})
 		}
 			
 			const reply = async(teks) => {
@@ -89,8 +89,8 @@ case 'info':
 break
 
 case 'img':
-  teks = `hola`
-replyTempImg(teks ('./media/image/menu.jpg'))
+  hola = `jaja`
+replyTempImg(hola, teks.readFileSync('./media/image/menu.jpg'))
 break
 
 
