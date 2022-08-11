@@ -90,7 +90,7 @@ break
 
 case 'img':
   hola = `jaja`
-replyTempImg(hola, teks.readFileSync('./media/image/menu.jpg'))
+replyTempImg(hola, readFileSync('./media/image/menu.jpg'))
 break
 
 
