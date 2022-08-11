@@ -1,7 +1,7 @@
 
 exports.menu = `que tal`
 
-exports.time = `Tiempo activo:`+ Math.round(process.uptime()/60) + `Minutos`
+exports.time = `Tiempo activo: ` + Math.round(process.uptime()/60) + ` Minutos`
 
 exports.shell = 
 console.log("SHELL by: mmppppss");
