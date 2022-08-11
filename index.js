@@ -99,6 +99,7 @@ break
 
 case 'menu':
   hai = ` hola `
+  text(hai)
   break
 
 
