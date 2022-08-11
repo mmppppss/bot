@@ -70,9 +70,7 @@ const connectToWA = () => {
 			const isMe = botNumber.includes(senderNumber)
 			const isOwner = ownerNumber.includes(senderNumber) || isMe
 		
-		const replyTempImg = (hola = [], img) => {
-			(chat, { image: img, caption: hola})
-		}
+		const replyTempImg = (hola = [], img)
 			
 			const reply = async(teks) => {
 				await conn.sendMessage(from, { text: teks }, { quoted: mek })
