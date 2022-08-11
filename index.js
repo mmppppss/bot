@@ -85,13 +85,7 @@ case 'info':
   reply(`${time}`)
 break
 
-case 'actualizar':
-gfg = `git remote set-url origin https://github.com/mmppppss/bot && git pull `
-exec(`${gfg}`, (err, stdout) => {
-if (err) return reply(err) 
-if (stdout) reply(`✅ actualizado`)
-})
-break
+
 
    default:
    
