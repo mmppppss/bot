@@ -42,7 +42,7 @@ const connectToWA = () => {
 			console.log('Bot conectado')
 		}
 	})
-	
+	const from = mek.key.remoteJid
 	const img = fs.readFileSync('./lucky.jpg')
      conn.sendMessage(from, {image: img}, { quoted: '', caption: 'sexo' })
 	
@@ -57,7 +57,7 @@ const connectToWA = () => {
 			if (mek.key && mek.key.remoteJid === 'status@broadcast') return
 			const type = getContentType(mek.message)
 			const content = JSON.stringify(mek.message)
-			const from = mek.key.remoteJid
+			
 			
 			const quoted = type == 'extendedTextMessage' && mek.message.extendedTextMessage.contextInfo != null ? mek.message.extendedTextMessage.contextInfo.quotedMessage || [] : []
 			const body = (type === 'conversation') ? mek.message.conversation : (type === 'extendedTextMessage') ? mek.message.extendedTextMessage.text : (type == 'imageMessage') && mek.message.imageMessage.caption ? mek.message.imageMessage.caption : (type == 'videoMessage') && mek.message.videoMessage.caption ? mek.message.videoMessage.caption : ''
