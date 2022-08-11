@@ -70,8 +70,6 @@ const connectToWA = () => {
 			const isMe = botNumber.includes(senderNumber)
 			const isOwner = ownerNumber.includes(senderNumber) || isMe
 		
-		const data = ownerNumber(([id, isOwner]) => id && isOwner)
-reply.sendContact(chat, data.map(([id, name]) => [id, name]), m)
 			
 			const reply = async(teks) => {
 				await conn.sendMessage(from, { text: teks }, { quoted: mek })
@@ -88,7 +86,7 @@ case 'info':
 break
 
 case 'owner':
-  reply.sendContact(`${isOwner}`)
+  replyContact(`${isOwner}`)
   break
 
    default:
