@@ -82,13 +82,16 @@ const connectToWA = () => {
 
 case 'hola':
  reply(`${menu}`)
- replyTempImg(teks, footer, buttons, mek.readFileSync('./media/image/menu.jpg'))
 break
 
 case 'info':
   reply(`${time}`)
 break
 
+case 'img':
+  teks = `hola`
+replyTempImg(teks, footer, buttons, mek.readFileSync('./media/image/menu.jpg'))
+break
 
 
    default:
