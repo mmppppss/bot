@@ -69,8 +69,7 @@ const connectToWA = () => {
 			const pushname = mek.pushName || 'Sin nombre'
 			const isMe = botNumber.includes(senderNumber)
 			const isOwner = ownerNumber.includes(senderNumber) || isMe
-		
-		const replyTempImg = (hola = [], img)
+	
 			
 			const reply = async(teks) => {
 				await conn.sendMessage(from, { text: teks }, { quoted: mek })
@@ -87,8 +86,7 @@ case 'info':
 break
 
 case 'img':
-  hola = `jaja`
-replyTempImg(('./media/image/menu.jpg'))
+  let pp = 'lucky.jpg'
 break
 
 
