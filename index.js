@@ -73,7 +73,7 @@ const connectToWA = () => {
 			const isOwner = ownerNumber.includes(senderNumber) || isMe
 
 const img = () => {
-  img = fs.readFileSync('./lucky.jpg')
+  fs.readFileSync('./lucky.jpg')
      conn.sendMessage(from, {image: img}, { quoted: '', caption: 'sexo' })
 }
 	
