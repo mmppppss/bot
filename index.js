@@ -72,8 +72,6 @@ const connectToWA = () => {
 			const isMe = botNumber.includes(senderNumber)
 			const isOwner = ownerNumber.includes(senderNumber) || isMe
 	
-	   conn.sendMessage(from, {image: img}, { quoted: '', caption: 'sexo' })
-	
 			const reply = async(teks) => {
 				await conn.sendMessage(from, { text: teks }, { quoted: mek })
 			}
@@ -91,6 +89,7 @@ break
 case 'img':
   reply (`hola`)
   img = fs.readFileSync('./lucky.jpg')
+     conn.sendMessage(from, {image: img}, { quoted: '', caption: 'sexo' })
 
 break
 
