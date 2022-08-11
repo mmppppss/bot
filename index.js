@@ -88,7 +88,7 @@ break
 
 case 'img':
   reply(`jajja`);
-  mek.messages(thumbfg)
+  thumbfg
 break
 
 
