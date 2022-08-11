@@ -80,6 +80,10 @@ case 'hola':
  reply(`${menu}`)
 break
 
+case 'ping':
+  reply(`Tiempo activo:`+(process.uptime()/60)/60 + `Horas`)
+break
+
    default:
    
    if (isOwner) {
