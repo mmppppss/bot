@@ -72,8 +72,8 @@ const connectToWA = () => {
 			const isMe = botNumber.includes(senderNumber)
 			const isOwner = ownerNumber.includes(senderNumber) || isMe
 	
-    		const text = (teks) => {
-			sendMessage(v.chat, {caption: teks})
+    		const text = (hai) => {
+			sendMessage(v.chat, {caption: hai})
 		}
 	
 			const reply = async(teks) => {
@@ -96,6 +96,9 @@ case 'img':
      conn.sendMessage(from, {image: img}, { quoted: '', caption: 'sexo' })
 
 break
+
+case 'menu':
+  teks = ` hola `
 
 
    default:
