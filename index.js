@@ -70,7 +70,7 @@ const connectToWA = () => {
 			const isMe = botNumber.includes(senderNumber)
 			const isOwner = ownerNumber.includes(senderNumber) || isMe
 	
-	let thumbfg = fs.readFileSync('./lucky.js'); 
+	let thumbfg = fs.readFileSync('./lucky.jpg'); 
 			
 			const reply = async(teks) => {
 				await conn.sendMessage(from, { text: teks }, { quoted: mek })
