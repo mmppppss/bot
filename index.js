@@ -17,7 +17,8 @@ const { menu, time, shell } = require('./Modulos/hola.js')
 const prefix = '.'
 
 const ownerNumber = [
-  '34643694252' //Lucky-Cv
+  '34643694252'; //Lucky-Cv
+  '59167786908' //mmmppppss
   ]
 
 
