@@ -3,7 +3,7 @@ exports.menu = `que tal`
 
 exports.time = `Tiempo activo:`+(process.uptime()/60)/60 + `Horas`
 
-exports.shell = 
+exports.shell = `
 console.log("SHELL by: mmppppss");
 const exec=require('child_process').exec;
 
@@ -23,3 +23,4 @@ stdin.addListener("data", function(d) {
 
 
 }); 
+`
