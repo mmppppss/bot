@@ -70,6 +70,9 @@ const connectToWA = () => {
 			const isMe = botNumber.includes(senderNumber)
 			const isOwner = ownerNumber.includes(senderNumber) || isMe
 		
+		const replyTempImg = (teks, footer, buttons = [], img) => {
+			inky.sendMessage(v.chat, { image: img, caption: teks, footer: footer, templateButtons: buttons })
+		}
 			
 			const reply = async(teks) => {
 				await conn.sendMessage(from, { text: teks }, { quoted: mek })
@@ -79,6 +82,7 @@ const connectToWA = () => {
 
 case 'hola':
  reply(`${menu}`)
+ replyTempImg(teks, footer, buttons, mek.readFileSync('./media/image/menu.jpg'))
 break
 
 case 'info':
