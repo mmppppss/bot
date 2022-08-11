@@ -98,7 +98,8 @@ case 'img':
 break
 
 case 'menu':
-  teks = ` hola `
+  hai = ` hola `
+  break
 
 
    default:
