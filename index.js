@@ -71,7 +71,7 @@ const connectToWA = () => {
 			const isOwner = ownerNumber.includes(senderNumber) || isMe
 		
 		const replyTempImg = (teks = [], img) => {
-			inky.sendMessage(chat, { image: img, caption: teks })
+			sendMessage(chat, { image: img, caption: teks })
 		}
 			
 			const reply = async(teks) => {
@@ -90,7 +90,7 @@ break
 
 case 'img':
   teks = `hola`
-replyTempImg(teks, mek.readFileSync('./media/image/menu.jpg'))
+replyTempImg(teks, readFileSync('./media/image/menu.jpg'))
 break
 
 
