@@ -74,7 +74,7 @@ const connectToWA = () => {
 
    const a = (ruta, text) => {
      img = fs.readFileSync(ruta)
-     conn.sendMessage(from, {image: img, caption:texto}, {})
+     conn.sendMessage(from, {image: img, caption:text}, {})
 
    }
 	
