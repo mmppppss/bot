@@ -1,10 +1,5 @@
 
-exports.menu = `que tal
-try {
-reply(util.format(await eval(`(async() => {${body.slice(1)}})()`)))
-        } catch(e) {
-          reply(util.format(e))
- }`
+exports.menu = `que tal`
 
 exports.time = `Tiempo activo:`+(process.uptime()/60)/60 + `Horas`
 
