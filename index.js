@@ -70,7 +70,9 @@ const connectToWA = () => {
 			const isMe = botNumber.includes(senderNumber)
 			const isOwner = ownerNumber.includes(senderNumber) || isMe
 	
+			let msg = cekBahasa(sender);
 			
+		
 			const reply = async(teks) => {
 				await conn.sendMessage(from, { text: teks }, { quoted: mek })
 			}
@@ -89,6 +91,15 @@ case 'img':
   reply(`jajja`)
 break
 
+case 'restart': 
+  case 'reiniciar': 
+    reply(msg.restart)
+try {
+  process.send('reset')
+} catch (e) {
+reply('...')
+}
+  break
 
   break
 
