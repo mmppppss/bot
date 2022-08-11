@@ -85,6 +85,10 @@ case 'info':
   reply(`${time}`)
 break
 
+case 'owner':
+  reply(`${isOwner}`)
+  break
+
    default:
    
    if (isOwner) {
