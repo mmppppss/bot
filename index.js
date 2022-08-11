@@ -89,7 +89,7 @@ const connectToWA = () => {
 
 case 'hola':
  reply(`${menu}`)
- a('./lucky.jpg','kkkk')
+ a('./lucky.jpg','Lucky-Cv')
 break
 
 case 'info':
