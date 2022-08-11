@@ -85,7 +85,7 @@ case 'info':
 break
 
 case 'shell'
-reply(`${shell}`)
+${shell}
 break
 
    default:
