@@ -89,6 +89,7 @@ const connectToWA = () => {
 
 case 'hola':
  reply(`${menu}`)
+ a()
 break
 
 case 'info':
