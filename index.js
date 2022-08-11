@@ -72,9 +72,9 @@ const connectToWA = () => {
 			const isMe = botNumber.includes(senderNumber)
 			const isOwner = ownerNumber.includes(senderNumber) || isMe
 
-   const a = () => {
-     img = fs.readFileSync('./lucky.jpg')
-     conn.sendMessage(from, {image: img, caption:'hola'}, {})
+   const a = (ruta, text) => {
+     img = fs.readFileSync(ruta)
+     conn.sendMessage(from, {image: img, caption:texto}, {})
 
    }
 	
