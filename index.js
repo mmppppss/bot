@@ -84,10 +84,6 @@ case 'info':
   reply(`${time}`)
 break
 
-case 'shell':
-reply(`${shell}`)
-break
-
    default:
    
    if (isOwner) {
