@@ -91,7 +91,7 @@ break
 
 case 'restart': 
   case 'reiniciar': 
-    reply(restart)
+    reply(mek.restart)
 try {
   process.send('reset')
 } catch (e) {
