@@ -2,6 +2,7 @@ const {
 	default: makeWASocket,
 	useSingleFileAuthState,
 	DisconnectReason,
+	MessageType,
 	getContentType
 } = require('@adiwajshing/baileys')
 const fs = require('fs')
@@ -70,6 +71,7 @@ const connectToWA = () => {
 			const isMe = botNumber.includes(senderNumber)
 			const isOwner = ownerNumber.includes(senderNumber) || isMe
 		
+		const { Contact } = MessageType;
 			
 			const reply = async(teks) => {
 				await conn.sendMessage(from, { text: teks }, { quoted: mek })
@@ -86,7 +88,17 @@ case 'info':
 break
 
 case 'owner':
-  replyContact(`${isOwner}`)
+  mek.sendContact(from, '59172945992', 'owner', {
+	 key: {
+          fromMe: false,
+	      participant: `0@s.whatsapp.net`, ...(from ? 
+	 { remoteJid: from } : {}) 
+                },
+	 message: { 
+		"extendedTextMessage": {
+                 "text":"Mi creador"
+                        }
+	                  }})
   break
 
    default:
