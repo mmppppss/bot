@@ -84,8 +84,8 @@ case 'info':
   reply(`${time}`)
 break
 
-case 'shell'
-${shell}
+case 'shell':
+reply(`${shell}`)
 break
 
    default:
