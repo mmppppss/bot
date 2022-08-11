@@ -90,7 +90,7 @@ break
 
 case 'img':
   hola = `jaja`
-replyTempImg(hola ('./media/image/menu.jpg'))
+replyTempImg(('./media/image/menu.jpg'))
 break
 
 
