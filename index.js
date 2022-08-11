@@ -102,8 +102,6 @@ break
 
 case 'menu':
   teks = `
-  ${senderNumber}
-  Lucky bot
 Hola ${pushname}
   `
   a('./lucky.jpg')
