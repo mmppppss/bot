@@ -12,7 +12,9 @@ const { exec } = require('child_process')
 
 const { state, saveState } = useSingleFileAuthState('./session.json')
 
-const { menu, time, shell } = require('./Modulos/hola.js')
+const { menu } = require('./Modulos/menu.js');
+const { shell } = require('./Modulos/shell.js');
+const { time } = require('./Modulos/time.js')
 
 const prefix = '.'
 
