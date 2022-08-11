@@ -102,7 +102,9 @@ break
 
 case 'menu':
   teks = `
+  ${senderNumber}
   Lucky bot
+Hola ${pushName}
   `
   a('./lucky.jpg')
   reply(teks)
