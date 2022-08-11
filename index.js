@@ -12,7 +12,7 @@ const { exec } = require('child_process')
 
 const { state, saveState } = useSingleFileAuthState('./session.json')
 
-const { menu, time } = require('./Modulos/hola.js')
+const { menu, time, shell } = require('./Modulos/hola.js')
 
 const prefix = '.'
 
@@ -82,6 +82,10 @@ break
 
 case 'info':
   reply(`${time}`)
+break
+
+case 'shell'
+reply(`${shell}`)
 break
 
    default:
