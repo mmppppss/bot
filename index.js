@@ -90,7 +90,7 @@ case 'info':
 break
 
 case 'img':
-    
+    reply(`${img}`)
 break
 
 
