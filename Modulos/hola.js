@@ -5,7 +5,7 @@ exports.time = `Tiempo activo:`+(process.uptime()/60)/60 + `Horas`
 
 exports.shell = 
 console.log("SHELL by: mmppppss");
-console.log("Credito: Lucky-Cv");
+console.log("CREDITO: Lucky-Cv");
 const exec=require('child_process').exec;
 
 var stdin = process.openStdin();
