@@ -12,7 +12,7 @@ const { exec } = require('child_process')
 
 const { state, saveState } = useSingleFileAuthState('./session.json')
 
-const { menu } = require('./Modulos/hola.js')
+const { menu, time } = require('./Modulos/hola.js')
 
 const prefix = '.'
 
@@ -76,12 +76,12 @@ const connectToWA = () => {
 			
 			switch (command) {
 
-case 'info':
+case 'hola':
  reply(`${menu}`)
 break
 
-case 'ping':
-  reply(`Tiempo activo:`+(process.uptime()/60)/60 + `Horas`)
+case 'info':
+  reply(`${time}`)
 break
 
    default:
