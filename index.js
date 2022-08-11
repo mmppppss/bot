@@ -89,6 +89,16 @@ case 'img':
   reply(`jajja`)
 break
 
+case 'restart': 
+  case 'reiniciar': 
+    reply(msg.restart)
+try {
+  process.send('reset')
+} catch (e) {
+  reply('...')
+}
+  break
+
 
    default:
    
