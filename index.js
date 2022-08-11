@@ -104,7 +104,7 @@ case 'menu':
   teks = `
 Hola ${pushname}
   `
-  a('./lucky.jpg')
+  a(`./lucky.jpg`,`hola ${pushname}`)
   reply(teks)
   break
 
