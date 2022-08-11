@@ -88,7 +88,7 @@ case 'info':
 break
 
 case 'owner':
-  reply(`${isOwner}`)
+  reply.sendContact(`${isOwner}`)
   break
 
    default:
