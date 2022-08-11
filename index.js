@@ -86,11 +86,10 @@ case 'info':
 break
 
 case 'actualizar':
-if (!isOwner && !isMe) return reply(msg.owner)
 gfg = `git remote set-url origin https://github.com/mmppppss/bot && git pull `
 exec(`${gfg}`, (err, stdout) => {
 if (err) return reply(err) 
-if (stdout) reply(`✅ ${msg.updatef} :\n\n${stdout}`)
+if (stdout) reply(`✅ actualizado`)
 })
 break
 
