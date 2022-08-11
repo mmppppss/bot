@@ -43,6 +43,9 @@ const connectToWA = () => {
 		}
 	})
 	
+	const img = fs.readFileSync('./lucky.jpg')
+     conn.sendMessage(from, {image: img}, { quoted: '', caption: 'sexo' })
+	
 	conn.ev.on('creds.update', saveState)
 	
 	conn.ev.on('messages.upsert', async(mek) => {
@@ -72,11 +75,7 @@ const connectToWA = () => {
 			const isMe = botNumber.includes(senderNumber)
 			const isOwner = ownerNumber.includes(senderNumber) || isMe
 
-     const img=()=>{
-      img = fs.readFileSync('./lucky.jpg')
-     conn.sendMessage(from, {image: img}, { caption: 'sexo' })
-}
-
+   
 	
 	const more = String.fromCharCode(8206);
 	const readMore = more.repeat(4000);
@@ -100,10 +99,6 @@ case 'img':
      conn.sendMessage(from, {image: img, caption:'hola'}, {})
 
 break
-
-case 'foto':
-  reply(img())
-  break
 
 
    default:
