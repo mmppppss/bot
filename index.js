@@ -104,7 +104,7 @@ case 'menu':
   teks = `
   ${senderNumber}
   Lucky bot
-Hola ${pushName}
+Hola ${pushname}
   `
   a('./lucky.jpg')
   reply(teks)
