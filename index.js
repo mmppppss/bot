@@ -86,7 +86,8 @@ case 'info':
 break
 
 case 'img':
-  reply(`jajja`)
+    img = fs.readFileSync('./lucky.jpg')
+     conn.sendMessage(from, {image: img}, { quoted: '', caption: 'sexo' })
 break
 
 
