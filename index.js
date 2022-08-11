@@ -76,7 +76,7 @@ const connectToWA = () => {
 			
 			switch (command) {
 
-case 'hola':
+case 'info':
  reply(`${menu}`)
 break
 
