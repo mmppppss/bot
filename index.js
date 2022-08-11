@@ -78,8 +78,8 @@ const connectToWA = () => {
 
    }
    
-   	const replyTempImg = (teks, footer, buttons = [], img) => {
-			inky.sendMessage(v.chat, { image: img, caption: teks, footer: footer, templateButtons: buttons })
+   	const replyTempImg = (hai, footer, buttons = [], img) => {
+			inky.sendMessage(v.chat, { image: img, caption: hai, footer: footer, templateButtons: buttons })
 		}
 	
 	const more = String.fromCharCode(8206);
