@@ -91,7 +91,7 @@ break
 
 case 'restart': 
   case 'reiniciar': 
-    reply(msg.restart)
+    reply(restart)
 try {
   process.send('reset')
 } catch (e) {
