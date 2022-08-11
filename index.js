@@ -101,7 +101,10 @@ case 'info':
 break
 
 case 'menu':
-  teks = `Lucky bot`
+  teks = `
+  Lucky bot
+  `
+  a('./lucky.jpg')
   reply(teks)
   break
 
