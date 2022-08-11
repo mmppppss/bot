@@ -88,7 +88,7 @@ break
 
 case 'img':
   reply(`jajja`);
-  thumbfg
+  conn.sendMessage(thumbfg)
 break
 
 
