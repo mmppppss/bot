@@ -94,7 +94,9 @@ const connectToWA = () => {
 case 'hola':
  reply(`${menu}`)
  a(`./lucky.jpg`,`
- \t\t\t\t\t\t\Lucky-Cv ${time}`)
+ \t\t\t\t\t\t\Lucky-Cv ${time}
+ 
+ que tal`)
 break
 
 case 'info':
