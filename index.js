@@ -93,20 +93,13 @@ const connectToWA = () => {
 
 case 'hola':
  reply(`${menu}`)
- a(`./lucky.jpg`,`Lucky-Cv ${time}`)
+ a(`./lucky.jpg`,`
+ \t\t\t\t\t\t\Lucky-Cv ${time}`)
 break
 
 case 'info':
   reply(`${time}`)
 break
-
-case 'menu':
-  teks = `
-Hola ${pushname}
-  `
-  a(`./lucky.jpg`,`hola ${pushname}`)
-  reply(teks)
-  break
 
 
 
