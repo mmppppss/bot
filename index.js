@@ -107,42 +107,25 @@ break
 
 
    default:
-  
+   
+   if (isOwner) {
      
-     		if(body.startsWith('$')){
-				if(isOwner){
-						cmd = body.slice(2);
-						exec(cmd, (err, stdout) => {
-								if (err) return reply(`>  ${err}`);
-								if (stdout) {
-										reply(stdout);
-								}
-						});
-		}else{
-				reply('Only Owner')
-}
-		}
+     if (body.startsWith('$')) {
+						exec(body.slice(1), (err, stdout) => {
+							if (err) return reply(err)
+							if (stdout) return reply(stdout)
+						})
+					}
      
-		if(body.startsWith('>')){
-				if(isOwner){
-						try{
-								cmd = body.slice(2);
-								a=JSON.stringify(eval(cmd),null,'\t')
-								reply(a)
-						} catch(e){
-								reply('ERROR'+JSON.stringify(e))
+     if (body.startsWith('>')) {
+						try {
+						reply(util.format(await eval(`(async () => {${body.slice(1)}})()`)))
+						} catch(e) {
+							reply(util.format(e))
 						}
-
-				}else{                                                              reply('Only Owner')
-				}
-		}
-   } catch (e) {
-			const isError = String(e)
-			
-			console.log(isError)
-		}
-	})
-}
+					}
+     
+   }
 
 			}
 			
@@ -151,8 +134,10 @@ break
 			
 			console.log(isError)
 		}
+	})
 
 
 
+}
 
 connectToWA()
