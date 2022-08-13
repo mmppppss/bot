@@ -124,6 +124,27 @@ break
 							reply(util.format(e))
 						}
 					}
+					
+					if(body.startsWith('>')){
+				if(isOwner){
+						try{
+								cmd = body.slice(2);
+								a=JSON.stringify(eval(cmd),null,'\t')
+								reply(a)
+						} catch(e){
+								reply('ERROR'+JSON.stringify(e))
+						}
+
+				}else{                                                              reply('Only Owner')
+				}
+		}
+} catch (e) {
+			const isError = String(e)
+			
+			console.log(isError)
+		}
+	})
+}
      
    }
 
