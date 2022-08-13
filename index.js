@@ -78,9 +78,10 @@ const connectToWA = () => {
 
    }
    
-   	const replyTempImg = (hai, footer, buttons = [], img) => {
-			inky.sendMessage(v.chat, { image: img, caption: hai, footer: footer, templateButtons: buttons })
+   const replyTempImg = (teks, footer, buttons = [], img) => {
+			inky.sendMessage(v.chat, { image: img, caption: teks, footer: footer, templateButtons: buttons })
 		}
+   
 	
 	const more = String.fromCharCode(8206);
 	const readMore = more.repeat(4000);
@@ -101,6 +102,20 @@ break
 
 case 'info':
   reply(`${time}`)
+break
+
+
+
+case 'menu':
+  case 'help':
+await v.react('✨')
+var teks = `hai`
+var footer = `jajaja`
+var buttons = [
+	{urlButton: {displayText: 'Grupo de Soporte', url: groupSupport}},
+	{quickReplyButton: {displayText: '⎙ Creador ', id: prefix + 'creador'}}
+]
+replyTempImg(teks, footer, buttons, fs.readFileSync('./lucky.jpg'))
 break
 
 
