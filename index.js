@@ -151,10 +151,8 @@ break
 			
 			console.log(isError)
 		}
-	})
 
 
 
-}
 
 connectToWA()
