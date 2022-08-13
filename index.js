@@ -79,7 +79,7 @@ const connectToWA = () => {
    }
    
    const replyTempImg = (teks, footer, buttons = [], img) => {
-			inky.sendMessage(v.chat, { image: img, caption: teks, footer: footer, templateButtons: buttons })
+			comm.sendMessage(v.chat, { image: img, caption: teks, footer: footer, templateButtons: buttons })
 		}
    
 	
