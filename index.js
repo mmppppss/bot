@@ -108,7 +108,6 @@ break
 
 case 'menu':
   case 'help':
-await v.react('✨')
 var teks = `hai`
 var footer = `jajaja`
 var buttons = [
