@@ -111,7 +111,7 @@ case 'menu':
 var teks = `hai`
 var footer = `jajaja`
 var buttons = [
-	{urlButton: {displayText: 'Grupo de Soporte', url: groupSupport}},
+	{urlButton: {displayText: 'Grupo de Soporte', url: http://hola.com}},
 	{quickReplyButton: {displayText: '⎙ Creador ', id: prefix + 'creador'}}
 ]
 replyTempImg(teks, footer, buttons, fs.readFileSync('./lucky.jpg'))
