@@ -79,7 +79,7 @@ const connectToWA = () => {
    }
    
    const replyTempImg = (teks, footer, buttons = [], img) => {
-			conn.sendMessage(v.chat, { image: img, caption: teks, footer: footer, templateButtons: buttons })
+			conn.sendMessage(chat, { image: img, caption: teks, footer: footer, templateButtons: buttons })
 		}
    
 	
