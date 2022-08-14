@@ -78,8 +78,15 @@ const connectToWA = () => {
 
    }
    
+   
+   const groupMetadata = v.isGroup ? await inky.groupMetadata(v.chat) : {}
+		const groupMembers = v.isGroup ? groupMetadata.participants : []
+		const groupAdmins = v.isGroup ? getGroupAdmins(groupMembers) : false
+   
+   
+   	
    const replyTempImg = (teks, footer, buttons = [], img) => {
-			conn.sendMessage({ image: img, caption: teks, footer: footer, templateButtons: buttons })
+			conn.sendMessage(v.chat, { image: img, caption: teks, footer: footer, templateButtons: buttons })
 		}
    
 	
