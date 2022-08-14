@@ -108,8 +108,10 @@ break
 
 case 'menu':
   case 'help':
-var teks = `hai`
+var teks = `Hola ${pushname}`
+
 var footer = `jajaja`
+
 var buttons = [
 	{quickReplyButton: {displayText: '⎙ Creador ', id: prefix + 'creador'}}
 ]
