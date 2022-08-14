@@ -95,7 +95,9 @@ const connectToWA = () => {
 
 case 'menu':
   case 'help':
-var teks = `Hola ${pushname}
+var teks = `_*Hola ${pushname}*_
+
+*COMANDOS*
 ${prefix}status`
 
 var footer = `jajaja`
