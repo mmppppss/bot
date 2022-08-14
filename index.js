@@ -79,7 +79,7 @@ const connectToWA = () => {
    }
    
    
-   const groupMetadata = v.isGroup ? await inky.groupMetadata(v.chat) : {}
+   const groupMetadata = v.isGroup ? await conn.groupMetadata(v.chat) : {}
 		const groupMembers = v.isGroup ? groupMetadata.participants : []
 		const groupAdmins = v.isGroup ? getGroupAdmins(groupMembers) : false
    
