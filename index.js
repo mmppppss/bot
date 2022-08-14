@@ -64,7 +64,7 @@ const connectToWA = () => {
 			
 			const args = body.trim().split(/ +/).slice(1)
 			const q = args.join(' ')
-			
+			const isGroup = from.endsWith('@g.us')
 			const sender = mek.key.fromMe ? (conn.user.id.split(':')[0]+'@s.whatsapp.net' || conn.user.id) : (mek.key.participant || mek.key.remoteJid)
 			const senderNumber = sender.split('@')[0]
 			const botNumber = conn.user.id.split(':')[0]
@@ -77,7 +77,6 @@ const connectToWA = () => {
      conn.sendMessage(from, {image: img, caption:text}, {})
 
    }
-   	const groupMetadata = v.isGroup ? await conn.groupMetadata(v.chat) : {}
    
    const replyTempImg = (teks, footer, buttons = [], img) => {
 			conn.sendMessage(v.chat, { image: img, caption: teks, footer: footer, templateButtons: buttons })
