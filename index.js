@@ -110,7 +110,7 @@ replyTempImg(teks, footer, buttons, fs.readFileSync('./lucky.jpg'))
 break
 
 case "status":
-var teks = `${status}`
+var teks = `${time}`
 break
 
 
