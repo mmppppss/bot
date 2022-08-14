@@ -92,19 +92,6 @@ const connectToWA = () => {
 			
 			switch (command) {
 
-case 'hola':
- reply(`${menu}`)
- a(`./lucky.jpg`,`
- \t\t\t\t\t\t\Lucky-Cv ${time}
- 
- que tal`)
-break
-
-case 'info':
-  reply(`${time}`)
-break
-
-
 
 case 'menu':
   case 'help':
