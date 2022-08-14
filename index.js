@@ -113,7 +113,8 @@ var teks = `Hola ${pushname}`
 var footer = `jajaja`
 
 var buttons = [
-	{quickReplyButton: {displayText: '⎙ Creador ', id: prefix + 'creador'}}
+  {urlButton: {displayText: 'link', url: hola.com}},
+	{quickReplyButton: {displayText: '⎙ Lucky-Cv', id: prefix + 'creador'}}
 ]
 replyTempImg(teks, footer, buttons, fs.readFileSync('./lucky.jpg'))
 break
