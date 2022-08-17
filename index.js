@@ -79,6 +79,7 @@ const connectToWA = () => {
 			const reply = async(teks) => {
 				await conn.sendMessage(from, { text: teks }, { quoted: mek })
 			}
+			  const isBot = mek.key.fromMe ? true : false
 			const isBotAdmins = groupAdmins.includes(botNumber) || false;
      const isAdmins = groupAdmins.includes(sender) || false;
 
