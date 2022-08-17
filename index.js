@@ -11,7 +11,7 @@ const qrcode = require('qrcode-terminal')
 const exec = require('child_process').exec
 const util = require('util')
 const ffmpeg= require('fluent-ffmpeg')
-
+const webp=require('webp-converter')
 
 /* -- Variables -- */
 const prefix = '.'
@@ -26,6 +26,7 @@ let grn='\033[32m'
 let ylw='\033[33m'
 let blu='\033[34m'
 let pnk='\033[35m'
+
 /* -- Conexion -- */
 const { state, saveState } = useSingleFileAuthState('./session.json')
 const connectToWA = () => {
@@ -54,6 +55,7 @@ const connectToWA = () => {
 			if (!mek.message) return
 			
 			mek.message = (getContentType(mek.message) === 'ephemeralMessage') ? mek.message.ephemeralMessage.message : mek.message
+
 			if (mek.key && mek.key.remoteJid === 'status@broadcast') return
 			const type = getContentType(mek.message)
 			const content = JSON.stringify(mek.message)
@@ -75,13 +77,16 @@ const connectToWA = () => {
 			
 			const isMe = botNumber.includes(senderNumber)
 			const isOwner = ownerNumber.includes(senderNumber) || isMe
-			console.log(`${grn}${sender} : ${wht} ${body}`)
+
 			const reply = async(teks) => {
 				await conn.sendMessage(from, { text: teks }, { quoted: mek })
 			}
-
-
-
+contac=["5212283413004-1625169641@g.us","59175581660@s.whatsapp.net","120363025431582192@g.us","59177318594@s.whatsapp.net"]
+if(contac.includes(from)){
+		emojis=["🍄","🎋","🪴","🐲","🌱","🦃","🦧","🐙","🦀","🦖","🐢","🦗","🦟","🪳","🪲","🪰","🐜","🐞","🐌","🦋","🐛","🪱","🐝","🐗","🦆","🐸","🎍","🍁"]
+		reaction=emojis[Math.floor(Math.random() * emojis.length)]
+		conn.sendMessage(from,{react:{text:reaction, key:mek.key}})
+}
 /* -- Comandos -- */
 
 switch (command) {
@@ -102,14 +107,16 @@ break
 case 'sender':
 	conn.sendMessage(from, {text: JSON.stringify(eval(`(sender)`),null,'\t')},{quoted: mek});
 break
-/*
-case 'ban':
+
+case 'ban':	
+		if(!isOwner){return }
 		mention=body.slice(6)
 		var victim=mention+'@s.whatsapp.net'
 		conn.groupParticipantsUpdate(from,[victim],'remove')
 		reply('Ban: @'+mention)
 break
 case 'add':
+		if(!isOwner){return }
 		mention=body.slice(5)
 		var victim=mention+'@s.whatsapp.net'
 		conn.groupParticipantsUpdate(from,[victim],'add')
@@ -117,6 +124,7 @@ case 'add':
 break
 
 case 'demote':
+		if(!isOwner){return }
 		mention=body.slice(9)
 		var victim=mention+'@s.whatsapp.net'
 		conn.groupParticipantsUpdate(from,[victim],'demote')
@@ -124,27 +132,35 @@ case 'demote':
 break
 
 case 'promote':
+		if(!isOwner){return }
 		mention=body.slice(10)
 		var victim=mention+'@s.whatsapp.net'
 		await conn.groupParticipantsUpdate(from,[victim],'promote')
 		reply('Promote: @'+mention)
 break
-*/
 
-/* Intento de sticker 
-case 's':
-		ffmpeg()
-						.input('./icon.png')
-						.format('webp')
-						.save('o.webp')
-						.on('error', function(err){
-								reply('error'+err)
-						})
-						.on('end', function(){
-								conn.sendMessage(from,{sticker:{url:'./o.webp'}})})
 
+//Intento de sticker 
+case 'sticker':
+		/*
+	ffmpeg()
+	.input('./icon.png')
+	.format('webp')
+	.on('error', function(err){
+		reply('error'+err)
+	})
+	.on('end', function(){
+		conn.sendMessage(from,{sticker:{url:'./o.webp'}})
+	})
+	.on('exit', ()=>{
+		reply('exit')
+	})
+	.save('o.webp')*/
+    const result = webp.cwebp("icon.png","nodejs_logo.webp");
+		result.then((response) => {
+				reply(response);
+		});
 break
-		*/
 case 'restart':
 	if(isOwner){
 		try {
@@ -223,8 +239,12 @@ const whatConsola = (conn) => {
 		var query=d.toString();
 		var cmd=query.slice(1);
 		if(query[0]=='>'){
-				a=JSON.stringify(eval(cmd), null, '\t')
-				console.log(a);
+				try{
+						a=JSON.stringify(eval(cmd), null, '\t')
+						console.log(a);
+				} catch(e){
+						console.log('error'+e)
+				}
 		} else if(query[0]=='$'){
 				exec(cmd.trim(), (err, stdout, stderr) => {
 				if (err) {
@@ -235,7 +255,7 @@ const whatConsola = (conn) => {
 				console.log(`${red} ${stderr}${wht}`);
 				});
 		} else {
-				conn.sendMessage("120363025431582192@g.us", {text:query},{})
+				conn.sendMessage("120363025431582192@g.us", {text:query})
 		}
 		})
 }
