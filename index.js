@@ -83,7 +83,7 @@ const connectToWA = () => {
 	admins = [];
 	for (let i of participants) {
 		i.isAdmin ? admins.push(i.jid) : '';
-	}
+	}}
 	
 			const groupAdmins = isGroup ? getGroupAdmins(groupMembers) : '';
 			  const isBot = mek.key.fromMe ? true : false
