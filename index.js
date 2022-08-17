@@ -48,7 +48,7 @@ const connectToWA = () => {
 	
 	conn.ev.on('creds.update', saveState)
 	
-	conn.ev.on('messages.upsert', async(mek) => {
+	conn.ev.on('messages.upsert', async(mek, Fg) => {
 		try {
 			mek = mek.messages[0]
 			if (!mek.message) return
@@ -84,7 +84,7 @@ const connectToWA = () => {
 	for (let i of participants) {
 		i.isAdmin ? admins.push(i.jid) : '';
 	}}
-	   const groupMetadata = isGroup ? await mek.groupMetadata(from) : '';
+	   const groupMetadata = isGroup ? await Fg.groupMetadata(from) : '';
 	   const groupMembers = isGroup ? groupMetadata.participants : '';
 			const groupAdmins = isGroup ? getGroupAdmins(groupMembers) : '';
 			  const isBot = mek.key.fromMe ? true : false
