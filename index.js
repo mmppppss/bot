@@ -108,6 +108,7 @@ case 'kkk':
 break
 
 case 'hola':
+  if(!isAdmins && !isOwner && !isBot) return m.reply(msg.admin)
 	reply(`Hola ${pushname} como estas? :D`)
 break
 case 'sender':
