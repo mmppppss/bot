@@ -1,6 +1,3 @@
-
-
-//jsjsjsj
 const {
 	default: makeWASocket,
 	useSingleFileAuthState,
