@@ -1,3 +1,4 @@
+//cambio
 const {
 	default: makeWASocket,
 	useSingleFileAuthState,
