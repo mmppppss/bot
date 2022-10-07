@@ -1,4 +1,3 @@
-/* -- Modulos -- */
 const {
 	default: makeWASocket,
 	useSingleFileAuthState,
@@ -8,306 +7,116 @@ const {
 const fs = require('fs')
 const P = require('pino')
 const qrcode = require('qrcode-terminal')
-const exec = require('child_process').exec
-const util = require('util')
-const ffmpeg= require('fluent-ffmpeg')
-const webp=require('webp-converter')
 
-/* -- Variables -- */
-const prefix = '.'
-const ownerNumber = ['59167786908','59175581660']
+const { state, saveState } = useSingleFileAuthState('./user/session.json')
+const config = require('./user/config.json')
 
-
-/* -- Colores -- */
-let wht='\033[00m'
-let blk='\033[30m'
-let red='\033[31m'
-let grn='\033[32m'
-let ylw='\033[33m'
-let blu='\033[34m'
-let pnk='\033[35m'
-
-/* -- Conexion -- */
-const { state, saveState } = useSingleFileAuthState('./session.json')
 const connectToWA = () => {
-	const conn = makeWASocket({
+	const bot= makeWASocket({
 		logger: P({ level: 'silent' }),
 		printQRInTerminal: true,
 		auth: state,
 	})
-	whatConsola(conn)
-    conn.ev.on('connection.update', (update) => {
+	
+	bot.ev.on('connection.update', (update) => {
 		const { connection, lastDisconnect } = update
 		if (connection === 'close') {
 			if (lastDisconnect.error.output.statusCode !== DisconnectReason.loggedOut) {
 				connectToWA()
 			}
 		} else if (connection === 'open') {
-			console.log(`${red} -- BOT CONECTADO -- ${wht}`)
+			console.log('Conectado exitosamente')
 		}
 	})
 	
-	conn.ev.on('creds.update', saveState)
+	bot.ev.on('creds.update', saveState)
 	
-	conn.ev.on('messages.upsert', async(mek) => {
+	bot.ev.on('messages.upsert', async(msg) => {
 		try {
-			mek = mek.messages[0]
-			if (!mek.message) return
+			msg = msg.messages[0]
+			if (!msg.message) return
 			
-			mek.message = (getContentType(mek.message) === 'ephemeralMessage') ? mek.message.ephemeralMessage.message : mek.message
-		    //console.log(mek.message)
-			if (mek.key && mek.key.remoteJid === 'status@broadcast') return
-			const type = getContentType(mek.message)
-			const content = JSON.stringify(mek.message)
-			const from = mek.key.remoteJid
-		//	console.log(from)
-			const quoted = type == 'extendedTextMessage' && mek.message.extendedTextMessage.contextInfo != null ? mek.message.extendedTextMessage.contextInfo.quotedMessage || [] : []
-			const body = (type === 'conversation') ? mek.message.conversation : (type === 'extendedTextMessage') ? mek.message.extendedTextMessage.text : (type == 'imageMessage') && mek.message.imageMessage.caption ? mek.message.imageMessage.caption : (type == 'videoMessage') && mek.message.videoMessage.caption ? mek.message.videoMessage.caption : ''
+			msg.message = (getContentType(msg.message) === 'ephemeralMessage') ? msg.message.ephemeralMessage.message : msg.message
+			if (msg.key && msg.key.remoteJid === 'status@broadcast') return //estados
+			const type = getContentType(msg.message) //tipo de mensaje
+			const content = JSON.stringify(msg.message) //contenido del mensaje
+			const from = msg.key.remoteJid 
 			
+			const quoted = type == 'extendedTextMessage' && msg.message.extendedTextMessage.contextInfo != null ? msg.message.extendedTextMessage.contextInfo.quotedMessage || [] : []
+			const body = (type === 'conversation') ? msg.message.conversation : (type === 'extendedTextMessage') ? msg.message.extendedTextMessage.text : (type == 'imageMessage') && msg.message.imageMessage.caption ? msg.message.imageMessage.caption : (type == 'videoMessage') && msg.message.videoMessage.caption ? msg.message.videoMessage.caption : ''
+			/*
 			const isCmd = body.startsWith(prefix)
 			const command = isCmd ? body.slice(prefix.length).trim().split(' ').shift().toLowerCase() : ''
-			
+			*/
 			const args = body.trim().split(/ +/).slice(1)
 			const q = args.join(' ')
 			const isGroup = from.endsWith('@g.us')
-			const sender = mek.key.fromMe ? (conn.user.id.split(':')[0]+'@s.whatsapp.net' || conn.user.id) : (mek.key.participant || mek.key.remoteJid)
+			const sender = msg.key.fromMe ? (bot.user.id.split(':')[0]+'@s.whatsapp.net' || bot.user.id) : (msg.key.participant || msg.key.remoteJid)
 			const senderNumber = sender.split('@')[0]
-			const botNumber = conn.user.id.split(':')[0]
-			const pushname = mek.pushName || 'Sin Nombre'
-			
+			const botNumber = bot.user.id.split(':')[0]
+			const pushname = msg.pushName || 'Usuario'
+			/*
 			const isMe = botNumber.includes(senderNumber)
-			const isOwner = ownerNumber.includes(senderNumber) || isMe
-				if(isGroup){
-				const group = await conn.groupMetadata(from);
-				const members =  JSON.constructor(group.participants);
-				admins=[]
+			*/
+			const owner = isOwner(senderNumber)
 
-				for(member of members){
-						if(member.admin=='admin'){
-								admins=admins.concat(member.id);
-						}
-				}}
 			const reply = async(teks) => {
-				await conn.sendMessage(from, { text: teks }, { quoted: mek })}
-
-if(sender=="59172630302@s.whatsapp.net"){
-	await conn.sendMessage(from,{sticker:{url:'juan.webp'}}, { quoted:mek })
-}
-
-if(sender=="59171020393@s.whatsapp.net"){
-	await conn.sendMessage(from,{text:"Calla friki"}, { quoted:mek })
-}
-
-contac=['59175581660@s.whatsapp.net']
-//"5212283413004-1625169641@g.us","59175581660@s.whatsapp.net","120363025431582192@g.us","59177318594@s.whatsapp.net","59171358485-1574473292@g.us"]
-//contac=['19842074738']
-if(contac.includes(sender)){
-		emojis=["🍄","🎋","🪴","🐲","🌱","🦃","🦧","🐙","🦀","🦖","🐢","🦗","🦟","🪳","🪲","🪰","🐜","🐞","🐌","🦋","🐛","🪱","🐝","🐗","🦆","🐸","🎍","🍁"]
-		reaction=emojis[Math.floor(Math.random() * emojis.length)]
-		
-		conn.sendMessage(from,{react:{text:reaction, key:mek.key}})
-}
-/* -- Comandos -- */
-
-switch (command) {
-case 'a':
-	/*	const a = await conn.groupMetadata(from);
-		const b = JSON.constructor(a.participants);
-		admins = [];
-		reply(typeof(c))
-		for(i of b){
-				if(i.admin=='admin'){
-						admins=admins.concat(i.id);
-				}
-		}
-		if(admins.includes(sender)){
-				await reply('true')
-		}
-
-		reply(JSON.stringify(admins))*/
-		if(admins.includes(sender)){
-				reply('es admin')
-		}
-break
-/*
-case 'hola':
-	reply(`Hola ${pushname} como estas? :D`)
-break*/
-case 'sender':
-	conn.sendMessage(from, {text: JSON.stringify(eval(`(sender)`),null,'\t')},{quoted: mek});
-break
-
-case 'ban':	
-		if(!isOwner){ return }
-		victim=mek.message.extendedTextMessage.contextInfo.participant;
-		if(victim!=''){
-				conn.groupParticipantsUpdate(from,[victim],'remove')
-				reply('Ban '+victim.split('@')[0])
-		} else if(body.length>4){
-				mention=body.slice(6)
-				victim=mention+'@s.whatsapp.net'
-				conn.groupParticipantsUpdate(from,[victim],'remove')
-				reply('Ban: '+mention)
-		} else {
-				reply('Etiquete a un Usuario o Responda un mensaje')
-		}
-break
-case 'add':
-		if(!isOwner){return }
-		mention=body.slice(5)
-		var victim=mention+'@s.whatsapp.net'
-		conn.groupParticipantsUpdate(from,[victim],'add')
-		reply('Add: @'+mention)
-break
-
-case 'demote':
-		if(!isOwner){return }
-		mention=body.slice(9)
-		var victim=mention+'@s.whatsapp.net'
-		conn.groupParticipantsUpdate(from,[victim],'demote')
-		reply('Demote: @'+mention)
-break
-
-case 'promote':
-		if(!isOwner){return }
-		mention=body.slice(10)
-		var victim=mention+'@s.whatsapp.net'
-		await conn.groupParticipantsUpdate(from,[victim],'promote')
-		reply('Promote: @'+mention)
-break
-
-
-//Intento de sticker 
-case 'sticker':
-		/*
-	ffmpeg()
-	.input('./icon.png')
-	.format('webp')
-	.on('error', function(err){
-		reply('error'+err)
-	})
-	.on('end', function(){
-		conn.sendMessage(from,{sticker:{url:'./o.webp'}})
-	})
-	.on('exit', ()=>{
-		reply('exit')
-	})
-	.save('o.webp')*/
-    const result = webp.cwebp("icon.png","nodejs_logo.webp");
-		result.then((response) => {
-				reply(response);
-		});
-break
-case 'restart':
-	if(isOwner){
-		try {
-			process.send('reset')
-		} catch (e) {
-			reply('```ERROR:``` '+ String(e))
-		}
-	}else{
-		reply('Only Owner');
-	}
-break
-case 'info':
-		time=Math.round(process.uptime())
-		format=""
-		if(time>60 && time<3600){
-				time=Math.round(time/60)
-				format=" Min"
-		} else{
-				format=" Seg"
-		}
-		info="Tiempo Activo: *"+ time+format +"*\nUso de Memoria: "+Math.round((process.memoryUsage().rss)/1024/1024) + " mb\nNode "+process.version;
-		reply(info);
-break
-}
-		if(body.startsWith('$')){
-				if(isOwner){
-						cmd = body.slice(2);
-						exec(cmd, (err, stdout) => {
-								if (err) return reply(`>  ${err}`);
-								if (stdout) {
-										reply(stdout);
-								}
-						});
-		}else{
-				reply('Only Owner')
-}
-		}
-/*
- if (body.startsWith('>')) {
-						try {
-						reply(util.format(await eval(`(async () => {${body.slice(1)}})()`)))
-						} catch(e) {
-							reply(util.format(e))
-						}
-					}
-		*/
-		if(body.startsWith('>')){
-				if(isOwner){
-						try{
-								cmd = body.slice(2);
-								a=await JSON.stringify(eval(cmd),null,'\t')
-								reply(a)
-						} catch(e){
-								reply('ERROR'+JSON.stringify(e))
-						}
-
-				}else{                                                              reply('Only Owner')
-				}
-		}
-} catch (e) {
-			const isError = String(e)
+				await bot.sendMessage(from, { text: teks }, { quoted: msg })
+			}
 			
+
+			switch (body) {
+//Responde en caso de mensaje especifico
+
+case 'hola':
+reply(`Hola ${pushname}, ¿Como estas? :)`)
+break
+
+case 'ram':
+
+	const template={
+		text:'*Memoria Ram 8GB DDR4 Fury Black*\n*Fabricante:* Kingston\n*Velocidad del Reloj:* 3200 MHxz',
+		footer:'CamiroCompuLoren',
+		templateButtons:[
+			{index:1, urlButton:{displayText:'Comprar',url:'google.com'}}
+		]
+	}
+	const img='./media/img/ram1.jpg'
+		if(isGroup){ chat=from } else { chat=sender}
+	//	bot.sendMessage(chat,{image:{url:img},caption:'*Memoria Ram 8GB DDR4 Fury Black*\n*Fabricante:* Kingston\n*Velocidad del Reloj:* 3200 MHxz\nhttps://wa.me/p/7604298339641974/59176039720',footer:'CamiriCompuLoren',templateButtons:[{index:1,urlButton:{displayText:'Comprar', url:'https://wa.me/p/7604298339641974/59176039720'}}]})
+//	bot.sendMessage(from, template )
+	bot.sendMessage(chat,{image:{url:img},caption:'*Memoria Ram 8GB DDR4 Fury Black*\n*Fabricante:* Kingston\n*Velocidad del Reloj:* 3200 MHxz\nhttps://wa.me/p/7604298339641974/59176039720',footer:'CamiriCompuLoren'})
+break
+
+
+// ----------------------------------- //
+			}
+
+if(body.startsWwith('>')){
+		try{
+				out= await eval(body.slice(2))
+				reply(JSON.stringify(out))
+		} catch(e){
+				reply('Error:'+e)
+		}
+}
+		} catch (e) {
+			const isError = String(e)
 			console.log(isError)
 		}
 	})
 }
 
-const whatConsola = (conn) => {
-		/* Whatsapp from console */
-		    
-		console.log(ylw+` -- `+grn+`SHELL`+ylw+` and`+grn+` NODE`+ylw+ ` by: `+red+`mmppppss`+ylw+` -- ${wht}`);
 
-		var stdin = process.openStdin();
-
-		stdin.addListener("data", function(d) {
-		var query=d.toString();
-		var cmd=query.slice(1);
-		if(query[0]=='>'){
-				try{
-						a=JSON.stringify(eval(cmd), null, '\t')
-						console.log(a);
-				} catch(e){
-						console.log('error'+e)
-				}
-		} else if(query[0]=='$'){
-				exec(cmd.trim(), (err, stdout, stderr) => {
-				if (err) {
-						console.error(`error: ${err}`);
-						return;
-				}
-				console.log(grn+`[>>>] ${wht} \n ${stdout}`);
-				console.log(`${red} ${stderr}${wht}`);
-				});
-		} else {
-				conn.sendMessage("120363025431582192@g.us", {text:query})
-		}
-		})
-}
-/*
-function getAdmins(from){
-		const group = conn.groupMetadata(from);
-		const members =  JSON.constructor(group.participants);
-		admins = []
-		for(menber of members){
-				if(i.admin=='admin'){
-						admins=admins.concat(i.id);
+isOwner=(n)=>{
+		for(i of config.owner){
+				if(i.number==n){
+						return true
+				}else{
+						return false
 				}
 		}
-		return admins;
 }
-*/
 connectToWA()
+
 
