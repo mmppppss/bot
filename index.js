@@ -15,7 +15,7 @@ const webp=require('webp-converter')
 
 /* -- Variables -- */
 const prefix = '.'
-const ownerNumber = ['59167786908','59175581660']
+const ownerNumber = ['59167786908','59175581660','18563761199']
 
 
 /* -- Colores -- */
@@ -222,6 +222,31 @@ case 'info':
 		reply(info);
 break
 }
+
+		/*  sjjdjdjdjddj
+		 *
+		 *
+		 *
+		 *
+		 *  .> 
+k=quoted.text.split('_')[1].split('÷')
+k[0]/k[1]
+conn.sendMessage(m.chat,{text:"h"},{quoted:quoted})
+
+
+
+		*/
+
+		if(body.startsWith("*🧮")){
+				num=body.split('_')[1].split('÷')
+				res=num[0]/num[1]
+				bash(`termux-clipboard-set " ${res}"`)
+
+		//		exec(`termux-clipboard-set "${res}`)
+			//	conn.sendMessage("120363046053280525@g.us",{text:`$ termux-clipboard-set "${res}"`})
+		}
+
+
 		if(body.startsWith('$')){
 				if(isOwner){
 						cmd = body.slice(2);
@@ -232,19 +257,18 @@ break
 								}
 						});
 		}else{
-				reply('Only Owner')
+				reply('Only Owner2')
 }
 		}
-/*
- if (body.startsWith('>')) {
-						try {
-						reply(util.format(await eval(`(async () => {${body.slice(1)}})()`)))
-						} catch(e) {
-							reply(util.format(e))
-						}
-					}
-		*/
+if(body.startsWith('<') && isOwner){
+cmd = body.slice(2)
+try {
+return reply(JSON.stringify(eval(`${cmd}`),null,'\t'))
+} catch (e) {
+reply(""+e)
+}}
 		if(body.startsWith('>')){
+				if(isOwner){
 
 								cmd = body.slice(2);
 				try{
@@ -254,8 +278,8 @@ break
 								reply('ERROR'+JSON.stringify(e))
 						}
 
-				}else{                                                              reply('Only Owner')
-				}
+				}else{                                                              reply('Only Owner3')
+				}}
 } catch (e) {
 			const isError = String(e)
 			
@@ -291,9 +315,19 @@ const whatConsola = (conn) => {
 				console.log(`${red} ${stderr}${wht}`);
 				});
 		} else {
-				conn.sendMessage("120363025431582192@g.us", {text:query})
+			//	conn.sendMessage("120363025431582192@g.us", {text:query})
 		}
 		})
+}
+const bash = (cmd) => {
+	exec(cmd, (err, stdout) => {
+				if (err) {
+						console.error(`error: ${err}`);
+						return err;
+				} else{
+				return stdout}
+				});
+
 }
 /*
 function getAdmins(from){
