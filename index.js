@@ -10,14 +10,14 @@ const P = require('pino')
 const qrcode = require('qrcode-terminal')
 const exec = require('child_process').exec
 const util = require('util')
-const ffmpeg= require('fluent-ffmpeg')
-const webp=require('webp-converter')
 
 /* -- Variables -- */
 const prefix = '.'
 const ownerNumber = ['59167786908','59175581660','18563761199']
 
-
+const users=JSON.parse(fs.readFileSync("database/users.json"));
+console.log(users);
+const noreg=[];
 /* -- Colores -- */
 let wht='\033[00m'
 let blk='\033[30m'
@@ -87,8 +87,24 @@ const connectToWA = () => {
 								admins=admins.concat(member.id);
 						}
 				}}
+
 			const reply = async(teks) => {
 				await conn.sendMessage(from, { text: teks }, { quoted: mek })}
+				for(i of noreg){
+						if(sender==i.sender && body == i.code){
+								reply("registro completo");
+								users.push(sender);
+								fs.writeFileSync('database/users.json', JSON.stringify(users, null, 2))
+						}
+				}
+				if(!users.includes(sender)&& !noreg.includes(sender)){
+						reply("no reg")
+						noRegUser={sender : sender,code : genRandom(4)}
+						noreg.push(sender)
+						noreg.push(noRegUser)
+						conn.sendMessage(sender,{text:"No estas registrado en la Base De Datos, por favor ingresa el codigo:\n*"+ noRegUser.code+"*"})
+				}
+				
 if(sender=="59172630302@s.whatsapp.net"){
 	await conn.sendMessage(from,{sticker:{url:'juan.webp'}}, { quoted:mek })
 }
@@ -342,5 +358,15 @@ function getAdmins(from){
 		return admins;
 }
 */
+function genRandom(num) {
+		  const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+		  const charactersLength = characters.length;
+		  let result = "";
+		    for (let i = 0; i < num; i++) {
+					        result += characters.charAt(Math.floor(Math.random() * charactersLength));
+					    }
+
+		  return result;
+}
 connectToWA()
 
