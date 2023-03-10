@@ -5,6 +5,12 @@ const {
 	DisconnectReason,
 	getContentType
 } = require('@adiwajshing/baileys')
+const { state, saveState } = useSingleFileAuthState('./user/session.json') //sesion actual
+const conn = makeWASocket({
+    logger: P({ level: 'silent' }),
+	printQRInTerminal: true,
+	auth: state,
+})
 const fs = require('fs')
 const P = require('pino')
 const qrcode = require('qrcode-terminal')
@@ -12,12 +18,14 @@ const exec = require('child_process').exec
 const util = require('util')
 
 /* -- Variables -- */
-const prefix = '.'
-const ownerNumber = ['59167786908','59175581660','18563761199']
+const config=JSON.parse(fs.readFileSync("user/config.json")) //configuraciones
+const prefix = config.prefix //prefix de comandos
+const ownerNumber = config.owner.map(k => k.number) //administradores del bot
 
-const users=JSON.parse(fs.readFileSync("database/users.json"));
-console.log(users);
+const users=JSON.parse(fs.readFileSync("database/users.json")); //usuarios registrados
 const noreg=[];
+
+
 /* -- Colores -- */
 let wht='\033[00m'
 let blk='\033[30m'
@@ -28,134 +36,89 @@ let blu='\033[34m'
 let pnk='\033[35m'
 
 /* -- Conexion -- */
-const { state, saveState } = useSingleFileAuthState('./user/session.json')
+
 const connectToWA = () => {
-	const conn = makeWASocket({
-		logger: P({ level: 'silent' }),
-		printQRInTerminal: true,
-		auth: state,
-	})
-	whatConsola(conn)
-    conn.ev.on('connection.update', (update) => {
-		const { connection, lastDisconnect } = update
-		if (connection === 'close') {
-			if (lastDisconnect.error.output.statusCode !== DisconnectReason.loggedOut) {
-				connectToWA()
-			}
-		} else if (connection === 'open') {
-			console.log(`${red} -- BOT CONECTADO -- ${wht}`)
-		}
-	})
+	conn.ev.on('connection.update', (update) => {
+    	const { connection, lastDisconnect } = update
+	    if (connection === 'close') {
+    		if (lastDisconnect.error.output.statusCode !== DisconnectReason.loggedOut) {
+		    	connectToWA()
+	    	}
+    	} else if (connection === 'open') {
+		    console.log(`${red} -- BOT CONECTADO -- ${wht}`)
+	    }
+	});
 	
-	conn.ev.on('creds.update', saveState)
-	
-	conn.ev.on('messages.upsert', async(mek, Fg) => {
+	conn.ev.on('creds.update', saveState)	
+	conn.ev.on('messages.upsert', async(msg, Fg) => {
 		try {
-			mek = mek.messages[0]
-			if (!mek.message) return
+			msg = msg.messages[0]
+			if (!msg.message) return
 			
-			mek.message = (getContentType(mek.message) === 'ephemeralMessage') ? mek.message.ephemeralMessage.message : mek.message
-		    //console.log(mek.message)
-			if (mek.key && mek.key.remoteJid === 'status@broadcast') return
-			const type = getContentType(mek.message)
-			const content = JSON.stringify(mek.message)
-			const from = mek.key.remoteJid
-		//	console.log(from)
-			const quoted = type == 'extendedTextMessage' && mek.message.extendedTextMessage.contextInfo != null ? mek.message.extendedTextMessage.contextInfo.quotedMessage || [] : []
-			const body = (type === 'conversation') ? mek.message.conversation : (type === 'extendedTextMessage') ? mek.message.extendedTextMessage.text : (type == 'imageMessage') && mek.message.imageMessage.caption ? mek.message.imageMessage.caption : (type == 'videoMessage') && mek.message.videoMessage.caption ? mek.message.videoMessage.caption : ''
-			
+			msg.message = (getContentType(msg.message) === 'ephemeralMessage') ? msg.message.ephemeralMessage.message : msg.message
+			if (msg.key && msg.key.remoteJid === 'status@broadcast') return
+			const type = getContentType(msg.message)
+			const content = JSON.stringify(msg.message)
+			const from = msg.key.remoteJid
+			const quoted = type == 'extendedTextMessage' && msg.message.extendedTextMessage.contextInfo != null ? msg.message.extendedTextMessage.contextInfo.quotedMessage || [] : []
+			const body = (type === 'conversation') ? msg.message.conversation : (type === 'extendedTextMessage') ? msg.message.extendedTextMessage.text : (type == 'imageMessage') && msg.message.imageMessage.caption ? msg.message.imageMessage.caption : (type == 'videoMessage') && msg.message.videoMessage.caption ? msg.message.videoMessage.caption : ''	
 			const isCmd = body.startsWith(prefix)
 			const command = isCmd ? body.slice(prefix.length).trim().split(' ').shift().toLowerCase() : ''
-			
 			const args = body.trim().split(/ +/).slice(1)
 			const q = args.join(' ')
 			const isGroup = from.endsWith('@g.us')
-			const sender = mek.key.fromMe ? (conn.user.id.split(':')[0]+'@s.whatsapp.net' || conn.user.id) : (mek.key.participant || mek.key.remoteJid)
+			const sender = msg.key.fromMe ? (conn.user.id.split(':')[0]+'@s.whatsapp.net' || conn.user.id) : (msg.key.participant || msg.key.remoteJid)
 			const senderNumber = sender.split('@')[0]
 			const botNumber = conn.user.id.split(':')[0]
-			const pushname = mek.pushName || 'Sin Nombre'
-			
+			const senderName = msg.pushName || 'Sin Nombre'	
 			const isMe = botNumber.includes(senderNumber)
-			const isOwner = ownerNumber.includes(senderNumber) || isMe
+				const isOwner = ownerNumber.includes(senderNumber) || isMe;
 				if(isGroup){
-				const group = await conn.groupMetadata(from);
-				const members =  JSON.constructor(group.participants);
+								const group = await conn.groupMetadata(from);
+								const members =  JSON.constructor(group.participants);
 				admins=[]
-
 				for(member of members){
 						if(member.admin=='admin'){
 								admins=admins.concat(member.id);
 						}
 				}}
-
 			const reply = async(teks) => {
-				await conn.sendMessage(from, { text: teks }, { quoted: mek })}
+				await conn.sendMessage(from, { text: teks }, { quoted: msg })}
 				for(i of noreg){
 						if(sender==i.sender && body == i.code){
-								reply("registro completo");
+								reply("Registro completo");
 								users.push(sender);
 								fs.writeFileSync('database/users.json', JSON.stringify(users, null, 2))
 						}
 				}
-				if(!users.includes(sender)&& !noreg.includes(sender)){
-						reply("no reg")
+				if(isCmd && !users.includes(sender)&& !noreg.includes(sender)){
+						reply("No estas Registrado como usuario, se envio un codigo de verificacion a tu chat privado")
 						noRegUser={sender : sender,code : genRandom(4)}
 						noreg.push(sender)
 						noreg.push(noRegUser)
 						conn.sendMessage(sender,{text:"No estas registrado en la Base De Datos, por favor ingresa el codigo:\n*"+ noRegUser.code+"*"})
+						return
+				} else if(isCmd && noreg.includes(sender)){
+						reply("No estas Registrado como usuario, se envio un codigo de verificacion a tu chat privado")
+						return
 				}
 				
-if(sender=="59172630302@s.whatsapp.net"){
-	await conn.sendMessage(from,{sticker:{url:'juan.webp'}}, { quoted:mek })
-}
 
-if(sender=="59171020393@s.whatsapp.net"){
-	await conn.sendMessage(from,{text:"Calla friki"}, { quoted:mek })
-}
-
-contac=['59175581660@s.whatsapp.net']
-//"5212283413004-1625169641@g.us","59175581660@s.whatsapp.net","120363025431582192@g.us","59177318594@s.whatsapp.net","59171358485-1574473292@g.us"]
-//contac=['19842074738']
-if(contac.includes(sender)){
-		emojis=["🍄","🎋","🪴","🐲","🌱","🦃","🦧","🐙","🦀","🦖","🐢","🦗","🦟","🪳","🪲","🪰","🐜","🐞","🐌","🦋","🐛","🪱","🐝","🐗","🦆","🐸","🎍","🍁"]
-		reaction=emojis[Math.floor(Math.random() * emojis.length)]
-		
-		conn.sendMessage(from,{react:{text:reaction, key:mek.key}})
-}
 /* -- Comandos -- */
 
 switch (command) {
 case 'a':
-	/*	const a = await conn.groupMetadata(from);
-		const b = JSON.constructor(a.participants);
-		admins = [];
-		reply(typeof(c))
-		for(i of b){
-				if(i.admin=='admin'){
-						admins=admins.concat(i.id);
-				}
-		}
-		if(admins.includes(sender)){
-				await reply('true')
-		}
-
-		reply(JSON.stringify(admins))*/
 		if(admins.includes(sender)){
 				reply('es admin')
 		}
 break
-/*
-case 'hola':
-  if(!isAdmins && !isOwner && !isBot) return m.reply(msg.admin)
-	reply(`Hola ${pushname} como estas? :D`)
-break*/
 case 'sender':
-	conn.sendMessage(from, {text: JSON.stringify(eval(`(sender)`),null,'\t')},{quoted: mek});
+	conn.sendMessage(from, {text: JSON.stringify(eval(`(sender)`),null,'\t')},{quoted: msg});
 break
 
 case 'ban':	
 		if(!isOwner){ return }
-		victim=mek.message.extendedTextMessage.contextInfo.participant;
+		victim=msg.message.extendedTextMessage.contextInfo.participant;
 		if(victim!=''){
 				conn.groupParticipantsUpdate(from,[victim],'remove')
 				reply('Ban '+victim.split('@')[0])
@@ -191,29 +154,6 @@ case 'promote':
 		await conn.groupParticipantsUpdate(from,[victim],'promote')
 		reply('Promote: @'+mention)
 break
-
-
-//Intento de sticker 
-case 'sticker':
-		/*
-	ffmpeg()
-	.input('./icon.png')
-	.format('webp')
-	.on('error', function(err){
-		reply('error'+err)
-	})
-	.on('end', function(){
-		conn.sendMessage(from,{sticker:{url:'./o.webp'}})
-	})
-	.on('exit', ()=>{
-		reply('exit')
-	})
-	.save('o.webp')*/
-    const result = webp.cwebp("icon.png","nodejs_logo.webp");
-		result.then((response) => {
-				reply(response);
-		});
-break
 case 'restart':
 	if(isOwner){
 		try {
@@ -239,29 +179,12 @@ case 'info':
 break
 }
 
-		/*  sjjdjdjdjddj
-		 *
-		 *
-		 *
-		 *
-		 *  .> 
-k=quoted.text.split('_')[1].split('÷')
-k[0]/k[1]
-conn.sendMessage(m.chat,{text:"h"},{quoted:quoted})
-
-
-
-		*/
-
 		if(body.startsWith("*🧮")){
 				num=body.split('_')[1].split('÷')
 				res=num[0]/num[1]
 				bash(`termux-clipboard-set " ${res}"`)
 
-		//		exec(`termux-clipboard-set "${res}`)
-			//	conn.sendMessage("120363046053280525@g.us",{text:`$ termux-clipboard-set "${res}"`})
-		}
-
+		}	
 
 		if(body.startsWith('$')){
 				if(isOwner){
@@ -304,7 +227,7 @@ reply(""+e)
 	})
 }
 
-const whatConsola = (conn) => {
+const sup4Console = () => {
 		/* Whatsapp from console */
 		    
 		console.log(ylw+` -- `+grn+`SHELL`+ylw+` and`+grn+` NODE`+ylw+ ` by: `+red+`mmppppss`+ylw+` -- ${wht}`);
@@ -345,19 +268,7 @@ const bash = (cmd) => {
 				});
 
 }
-/*
-function getAdmins(from){
-		const group = conn.groupMetadata(from);
-		const members =  JSON.constructor(group.participants);
-		admins = []
-		for(menber of members){
-				if(i.admin=='admin'){
-						admins=admins.concat(i.id);
-				}
-		}
-		return admins;
-}
-*/
+
 function genRandom(num) {
 		  const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
 		  const charactersLength = characters.length;
@@ -369,4 +280,4 @@ function genRandom(num) {
 		  return result;
 }
 connectToWA()
-
+sup4Console()

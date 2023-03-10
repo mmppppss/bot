@@ -9,5 +9,6 @@
 						"name":"p"
 				}
 		],
-		"name":"tiendaBot"
+		"name":"tiendaBot",
+		"prefix":"."
 }
