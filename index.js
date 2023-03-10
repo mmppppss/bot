@@ -1,4 +1,10 @@
 /* -- Modulos -- */
+const fs = require('fs')
+const P = require('pino')
+const qrcode = require('qrcode-terminal')
+const exec = require('child_process').exec
+const util = require('util')
+
 const {
 	default: makeWASocket,
 	useSingleFileAuthState,
@@ -11,12 +17,6 @@ const conn = makeWASocket({
 	printQRInTerminal: true,
 	auth: state,
 })
-const fs = require('fs')
-const P = require('pino')
-const qrcode = require('qrcode-terminal')
-const exec = require('child_process').exec
-const util = require('util')
-
 /* -- Variables -- */
 const config=JSON.parse(fs.readFileSync("user/config.json")) //configuraciones
 const prefix = config.prefix //prefix de comandos
