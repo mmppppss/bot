@@ -20,7 +20,6 @@
   "homepage": "https://github.com/mmppppss/bot#readme",
   "dependencies": {
     "@adiwajshing/baileys": "^4.2.0",
-    "fluent-ffmpeg": "^2.1.2",
     "pino": "^7.0.5",
     "qrcode-terminal": "^0.12.0"
   }
