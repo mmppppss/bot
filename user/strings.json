@@ -8,7 +8,8 @@
         "onlyOwn":"Comando Valido solo para desarrolladores",
         "time":"*Tiempo Activo:* ",
         "memory":"*Uso de Memoria:* ",
-        "setlang":"Lenguaje: Español"
+        "setlang":"Lenguaje: Español",
+        "setprefix":"Nuevo prefix: "
     },
     "en":{
         "botConnect": "-- BOT CONNECTED --",
@@ -19,6 +20,7 @@
         "onlyOwn": "Command Valid only for Developers",
         "time": "*Active Time:* ", 
         "memory": "*Memory Usage:* ",
-        "setlang":"Languaje: English"
+        "setlang":"Languaje: English",
+        "setprefix":"New prefix: "
     }
 }
