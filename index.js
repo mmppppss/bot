@@ -236,7 +236,7 @@ if(isCmd){
         } catch (qe) {
          */
          try {
-            pet=body.replaceAll(" ","%20")
+            pet=body.replaceAll(" ","%20").replace(prefix,"")
          let tioress = await fetch(`https://api.lolhuman.xyz/api/openai?apikey=BrunoSobrino&text=${pet}&user=${OPENAI_KEY}`)
         reply(`https://api.lolhuman.xyz/api/openai?apikey=BrunoSobrino&text=${pet}&user=${OPENAI_KEY}`)
          let hasill = await tioress.json()
