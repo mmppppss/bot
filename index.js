@@ -33,6 +33,7 @@ var strings =lang == "es"? languajes.es : lang == "en"? languajes.en : "";
 const users=JSON.parse(fs.readFileSync("database/users.json")); //usuarios registrados
 const noreg=[];
 let reg=config.reg
+let disable=config.disable;
 /* -- Colores -- */
 let wht='\033[00m'
 let blk='\033[30m'
@@ -101,6 +102,10 @@ conn.ev.on('messages.upsert', async(msg) => {
            conn.sendMessage(from, {react:{text:emoji, key:msg.key}})
 }
         if(isCmd){
+            if(disable.includes(command)){
+                reply(strins.commandDisable)
+                return
+            }
 /*/            em=["🕛","🕒","🕡","🕘"]
             em=["🗿","🐄","😾","🏃"]
             c=0

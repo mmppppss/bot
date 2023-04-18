@@ -9,7 +9,8 @@
         "time":"*Tiempo Activo:* ",
         "memory":"*Uso de Memoria:* ",
         "setlang":"Lenguaje: Español",
-        "setprefix":"Nuevo prefix: "
+        "setprefix":"Nuevo prefix: ",
+        "commandDisable":"Funcionalidad desactivada"
     },
     "en":{
         "botConnect": "-- BOT CONNECTED --",
@@ -21,6 +22,7 @@
         "time": "*Active Time:* ", 
         "memory": "*Memory Usage:* ",
         "setlang":"Languaje: English",
-        "setprefix":"New prefix: "
+        "setprefix":"New prefix: ",
+        "commandDisable":"Unable function"
     }
 }

@@ -9,10 +9,13 @@
       "name": "p"
     }
   ],
-  "name": "tiendaBot",
-  "prefix": "]",
-  "reg": false,
+  "name": "Bot",
+  "prefix": "#",
+  "reg": true,
   "lang": "es",
-  "mainGroup":"59167786908@s.whatsapp.net"
+  "mainGroup":"59167786908@s.whatsapp.net",
+  "disable":[
+      "ban","add"
+  ]
 }
 
