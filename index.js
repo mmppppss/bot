@@ -237,6 +237,7 @@ if(isCmd){
          */
          try {    
          let tioress = await fetch(`https://api.lolhuman.xyz/api/openai?apikey=BrunoSobrino&text=${body}&user=${OPENAI_KEY}`)
+        reply(`https://api.lolhuman.xyz/api/openai?apikey=BrunoSobrino&text=${body}&user=${OPENAI_KEY}`)
          let hasill = await tioress.json()
          reply(`${hasill.result}`.trim())   
          } catch (qqe) {        
