@@ -166,7 +166,7 @@ const commands = {
         reply(strings.setlang)
         writeJson('user/config.json', config)
     },
-    setPrefix:()=>{
+    setprefix:()=>{
         prefix=args[1];
         config.prefix=args[1];
         writeJson('user/config.json', config)
