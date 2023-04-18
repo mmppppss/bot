@@ -103,7 +103,7 @@ conn.ev.on('messages.upsert', async(msg) => {
 }
         if(isCmd){
             if(disable.includes(command)){
-                reply(strins.commandDisable)
+                reply(strings.commandDisable)
                 return
             }
 /*/            em=["🕛","🕒","🕡","🕘"]
