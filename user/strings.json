@@ -1,0 +1,24 @@
+{
+    "es":{
+        "botConnect":"-- BOT CONECTADO --",
+        "noRegister":"No estas Registrado como usuario, se envio un codigo de verificacion a tu chat privado",
+        "regCompleted":"Registro completo",
+        "regCode":"No estas registrado en la Base De Datos, por favor ingresa el codigo:\n*",
+        "tagUser":"Etiquete a un Usuario o Responda un mensaje",
+        "onlyOwn":"Comando Valido solo para desarrolladores",
+        "time":"*Tiempo Activo:* ",
+        "memory":"*Uso de Memoria:* ",
+        "setlang":"Lenguaje: Español"
+    },
+    "en":{
+        "botConnect": "-- BOT CONNECTED --",
+        "noRegister": "You are not registered as a user, a verification code has been sent to your private chat",
+        "regCompleted": "Registration complete", 
+        "regCode": "You are not registered in the Database, please enter the code:\n*",
+        "tagUser": "Tag a User or Reply to a Message",
+        "onlyOwn": "Command Valid only for Developers",
+        "time": "*Active Time:* ", 
+        "memory": "*Memory Usage:* ",
+        "setlang":"Languaje: English"
+    }
+}

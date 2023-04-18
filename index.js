@@ -17,15 +17,20 @@ const conn = makeWASocket({
 	printQRInTerminal: true,
 	auth: state,
 })
+//const games = require("./plugs/games.js");
+//import win from './plugs/games.js'
 /* -- Variables -- */
+
 const config=JSON.parse(fs.readFileSync("user/config.json")) //configuraciones
 const prefix = config.prefix //prefix de comandos
 const ownerNumber = config.owner.map(k => k.number) //administradores del bot
-
+const mainGroup=config.mainGroup;
+const languajes=JSON.parse(fs.readFileSync("user/strings.json"));
+const lang = config.lang //lenguaje
+var strings =lang == "es"? languajes.es : lang == "en"? languajes.en : "";
 const users=JSON.parse(fs.readFileSync("database/users.json")); //usuarios registrados
 const noreg=[];
-
-
+let reg=config.reg
 /* -- Colores -- */
 let wht='\033[00m'
 let blk='\033[30m'
@@ -45,7 +50,8 @@ const connectToWA = () => {
 		    	connectToWA()
 	    	}
     	} else if (connection === 'open') {
-		    console.log(`${red} -- BOT CONECTADO -- ${wht}`)
+		    console.log(`${red} ${strings.botConnect} ${wht}`)
+            conn.sendMessage(mainGroup,{text:strings.botConnect});
 	    }
 	});
 	
@@ -63,25 +69,49 @@ conn.ev.on('messages.upsert', async(msg) => {
 		if (!msg.message) return
 			
 		msg.message = (getContentType(msg.message) === 'ephemeralMessage') ? msg.message.ephemeralMessage.message : msg.message
-		if (msg.key && msg.key.remoteJid === 'status@broadcast') return
+		if (msg.key && msg.key.remoteJid === 'status@broadcast') console.log("status"+JSON.stringify(msg))
+
+		const botNumber = conn.user.id.split(':')[0]
 		const type = getContentType(msg.message)
 		const content = JSON.stringify(msg.message)
 		const from = msg.key.remoteJid
 		const quoted = type == 'extendedTextMessage' && msg.message.extendedTextMessage.contextInfo != null ? msg.message.extendedTextMessage.contextInfo.quotedMessage || [] : []
 		const body = (type === 'conversation') ? msg.message.conversation : (type === 'extendedTextMessage') ? msg.message.extendedTextMessage.text : (type == 'imageMessage') && msg.message.imageMessage.caption ? msg.message.imageMessage.caption : (type == 'videoMessage') && msg.message.videoMessage.caption ? msg.message.videoMessage.caption : ''	
-		const isCmd = body.startsWith(prefix)
-		const command = isCmd ? body.slice(prefix.length).trim().split(' ').shift().toLowerCase() : ''
-		const args = body.trim().split(/ +/).slice(1)
+	var isCmd= body.startsWith(prefix)
+       // const isCmd = body.startsWith("@"+botNumber)
+        var isCmd2 = body.includes(botNumber); 
+	//	const command = isCmd ? body.slice(prefix.length).trim().split(' ').shift().toLowerCase() ||
+        
+      const command= isCmd2 ? body.replace("@"+botNumber+'','').replace(' ','').toLowerCase(): isCmd ? body.slice(prefix.length).trim().split(' ').shift().toLowerCase() : ''
+        isCmd= isCmd2 || isCmd ? true : false;
+		const args = body.replace("@"+botNumber,'').trim().split(/ +/)
 		const q = args.join(' ')
 		const isGroup = from.endsWith('@g.us')
 		const sender = msg.key.fromMe ? (conn.user.id.split(':')[0]+'@s.whatsapp.net' || conn.user.id) : (msg.key.participant || msg.key.remoteJid)
 		const senderNumber = sender.split('@')[0]
-		const botNumber = conn.user.id.split(':')[0]
 		const senderName = msg.pushName || 'Sin Nombre'	
 		const isMe = botNumber.includes(senderNumber)
         const isOwner = ownerNumber.includes(senderNumber) || isMe
         const reply = async(txt) => {
             await conn.sendMessage(from, { text: txt }, { quoted: msg })
+        }
+        const react=(emoji)=>{
+           conn.sendMessage(from, {react:{text:emoji, key:msg.key}})
+}
+        if(isCmd){
+/*/            em=["🕛","🕒","🕡","🕘"]
+            em=["🗿","🐄","😾","🏃"]
+            c=0
+            function aa(){
+                if (c < em.length) {
+                    react(em[c]);
+                    c++
+                }
+            }
+            var inter= setInterval(aa,1000)
+            if(c>=em.length)clearInterval(inter)
+            */
+            react("🦔")
         }
 		if(isGroup){
 			const group = await conn.groupMetadata(from);
@@ -95,26 +125,103 @@ conn.ev.on('messages.upsert', async(msg) => {
         }
 		for(i of noreg){
 			if(sender==i.sender && body == i.code){
-				reply("Registro completo");
+				reply(strings.regCompleted);
 				users.push(sender);
-				fs.writeFileSync('database/users.json', JSON.stringify(users, null, 2))
+				writeJson('database/users.json', users)
             }
 		}
-		if(isCmd && !users.includes(sender)&& !noreg.includes(sender)){
-            reply("No estas Registrado como usuario, se envio un codigo de verificacion a tu chat privado")
+		if(reg && isCmd && !users.includes(sender)&& !noreg.includes(sender)){
+            reply(strings.noRegister)
 			noRegUser={sender : sender,code : genRandom(4)}
             noreg.push(sender)
             noreg.push(noRegUser)
-			conn.sendMessage(sender,{text:"No estas registrado en la Base De Datos, por favor ingresa el codigo:\n*"+ noRegUser.code+"*"})
+			conn.sendMessage(sender,{text:strings.regCode+ noRegUser.code+"*"})
             return
-        } else if(isCmd && noreg.includes(sender)){
-			reply("No estas Registrado como usuario, se envio un codigo de verificacion a tu chat privado")
-			return
-		}
-				
+        } else if(isCmd && noreg.includes(sender)&&!users.includes(sender)){
+			reply(strings.noRegister)
+	        return
+        }
 
+console.log(`${red}MSG:${grn}[${sender} | ${senderName}]:${ylw} ${body}`)
 /* -- Comandos -- */
 
+
+const commands = {
+      hola: () => reply('Hola '+senderName),
+      adios: () => reply('Adios '+senderName),
+    restart:() =>{
+        if(!isOwner){ return }
+        eval(process.exit())
+    },
+    setlang: ()=> {
+        console.log(strings.setlang)
+        if(args[1]=="es"){
+            strings=languajes.es
+            config.lang="es";
+        }
+        if(args[1]=="en"){
+            strings=languajes.en;
+            config.lang="en";
+        }
+        reply(strings.setlang)
+        writeJson('user/config.json', config)
+    },
+    ban:()=>{
+        if(!isOwner){ return }
+		victim=msg.message.extendedTextMessage.contextInfo.participant;
+    	if(victim!=''){
+	    	conn.groupParticipantsUpdate(from,[victim],'remove')
+		    reply('Ban '+victim.split('@')[0])
+    	} else if(body.length>4){
+	    	mention=body.slice(6)
+			victim=mention+'@s.whatsapp.net'
+			conn.groupParticipantsUpdate(from,[victim],'remove')
+    		reply('Ban: '+mention)
+		} else {
+			reply(strings.tagUser)
+		}
+    },
+    add:()=>{
+	    if(!isOwner) return 
+        mention=body.slice(5)
+	    var victim=mention+'@s.whatsapp.net'
+    	conn.groupParticipantsUpdate(from,[victim],'add')
+	    reply('Add: @'+mention)
+    },
+    demote:()=>{
+    	if(!isOwner)return 
+	    mention=body.slice(9)
+    	var victim=mention+'@s.whatsapp.net'
+    	conn.groupParticipantsUpdate(from,[victim],'demote')
+	    reply('Demote: @'+mention)
+    },
+    promote:async()=>{
+    	if(!isOwner)return 
+	    mention=body.slice(10)
+    	var victim=mention+'@s.whatsapp.net'
+	    await conn.groupParticipantsUpdate(from,[victim],'promote')
+    	reply('Promote: @'+mention)
+    },
+    info:()=>{
+    	time=Math.round(process.uptime())
+	    format=""
+    	if(time>60 && time<3600){
+		    time=Math.round(time/60)
+	    	format=" Min"
+    	} else{
+	    	format=" Seg"
+    	}
+	    info=strings.time+ time+format +"\n"+strings.memory+Math.round((process.memoryUsage().rss)/1024/1024) + " mb\nNode "+process.version;
+    	reply(info);
+    }
+};
+if(isCmd){
+    try{
+        commands[command]();
+    }catch(e){
+        console.log(command+" not found command")
+    }
+}
 switch (command) {
 case 'a':
     if(admins.includes(sender)){
@@ -124,43 +231,6 @@ break
 case 'sender':
     reply(JSON.stringify(eval(`(sender)`),null,'\t'));
 break
-case 'ban':	
-    if(!isOwner){ return }
-		victim=msg.message.extendedTextMessage.contextInfo.participant;
-		if(victim!=''){
-			conn.groupParticipantsUpdate(from,[victim],'remove')
-			reply('Ban '+victim.split('@')[0])
-		} else if(body.length>4){
-			mention=body.slice(6)
-			victim=mention+'@s.whatsapp.net'
-			conn.groupParticipantsUpdate(from,[victim],'remove')
-			reply('Ban: '+mention)
-		} else {
-			reply('Etiquete a un Usuario o Responda un mensaje')
-		}
-break
-case 'add':
-	if(!isOwner) return 
-    mention=body.slice(5)
-	var victim=mention+'@s.whatsapp.net'
-	conn.groupParticipantsUpdate(from,[victim],'add')
-	reply('Add: @'+mention)
-break
-case 'demote':
-	if(!isOwner)return 
-	mention=body.slice(9)
-	var victim=mention+'@s.whatsapp.net'
-	conn.groupParticipantsUpdate(from,[victim],'demote')
-	reply('Demote: @'+mention)
-break
-
-case 'promote':
-	if(!isOwner)return 
-	mention=body.slice(10)
-	var victim=mention+'@s.whatsapp.net'
-	await conn.groupParticipantsUpdate(from,[victim],'promote')
-	reply('Promote: @'+mention)
-break
 case 'restart':
 	if(isOwner){
 		try {
@@ -169,20 +239,8 @@ case 'restart':
 			reply('```ERROR:``` '+ String(e))
 		}
 	}else{
-		reply('Only Owner');
+		reply(strings.onlyOwn);
 	}
-break
-case 'info':
-	time=Math.round(process.uptime())
-	format=""
-	if(time>60 && time<3600){
-		time=Math.round(time/60)
-		format=" Min"
-	} else{
-		format=" Seg"
-	}
-	info="Tiempo Activo: *"+ time+format +"*\nUso de Memoria: "+Math.round((process.memoryUsage().rss)/1024/1024) + " mb\nNode "+process.version;
-	reply(info);
 break
 }//fin cases
 
@@ -190,19 +248,34 @@ if(body.startsWith("*🧮")){
 	num=body.split('_')[1].split('÷')
 	res=num[0]/num[1]
 	bash(`termux-clipboard-set " ${res}"`)
+    conn.sendMessage("120363025097260561@g.us",{text:""+res})
+    conn.sendMessage(from,{text:"-claim"})
 }	
+if(body.startsWith("▢")){
+	num=body.split('*')[1].split('÷')
+	res=num[0]/num[1]
+//	bash(`termux-clipboard-set " ${res}"`)
+    reply(""+res)
+}	
+/*
+ *
+ CUANTO ES *184863415974523550 ÷ -803*=
 
+    *Tiempo:* _30.00_ *Segundo(s)*
+
+    🎁 Recompensa : 2000 🪙
+ * */
 if(body.startsWith('$')){
 	if(isOwner){
         cmd = body.slice(2);
 		exec(cmd, (err, stdout) => {
-			if (err) return reply(`>  ${err}`);
+			if (err) return reply(`[#] ${err}`);
 			if (stdout) {
 				reply(stdout);
 			}
 		});
 	}else{
-		reply('Only Owner2')
+		reply(strings.onlyOwn)
     }
 }
 if(body.startsWith('<') && isOwner){
@@ -224,7 +297,7 @@ if(body.startsWith('>')){
             console.log(e)
 		}
 
-	}else{                                                              reply('Only Owner3')
+	}else{                                                              reply(strings.onlyOwn)
 	
     }
 }
@@ -286,7 +359,21 @@ function genRandom(num) {
 	}
     return result;
 }
+function writeJson(file, data){
+    try{
+        fs.writeFileSync(file, JSON.stringify(data, null, 2));
+        return 1;
+    } catch(e){
+        return e;
+    }
+}
+function banUser(user){
 
+}
+function joinGroup(link){
+    var code=link.split("/")[3];
+    conn.groupAcceptInvite(code);
+}
 
 connectToWA()
 sup4Console()

@@ -1,14 +1,18 @@
 {
-		"owner":[
-				{
-						"number":"59167786908",
-						"name":"mps"
-				},
-				{
-						"number":"",
-						"name":"p"
-				}
-		],
-		"name":"tiendaBot",
-		"prefix":"."
+  "owner": [
+    {
+      "number": "59167786908",
+      "name": "mps"
+    },
+    {
+      "number": "",
+      "name": "p"
+    }
+  ],
+  "name": "tiendaBot",
+  "prefix": "]",
+  "reg": false,
+  "lang": "es",
+  "mainGroup":"59167786908@s.whatsapp.net"
 }
+
