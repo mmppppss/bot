@@ -22,7 +22,7 @@ const conn = makeWASocket({
 /* -- Variables -- */
 
 const config=JSON.parse(fs.readFileSync("user/config.json")) //configuraciones
-const prefix = config.prefix //prefix de comandos
+var prefix = config.prefix //prefix de comandos
 const ownerNumber = config.owner.map(k => k.number) //administradores del bot
 const mainGroup=config.mainGroup;
 const languajes=JSON.parse(fs.readFileSync("user/strings.json"));
@@ -164,6 +164,11 @@ const commands = {
             config.lang="en";
         }
         reply(strings.setlang)
+        writeJson('user/config.json', config)
+    },
+    setPrefix:()=>{
+        prefix=args[1];
+        config.prefix=args[1];
         writeJson('user/config.json', config)
     },
     ban:()=>{
