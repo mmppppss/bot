@@ -238,7 +238,7 @@ if(isCmd){
          try {    
          let tioress = await fetch(`https://api.lolhuman.xyz/api/openai?apikey=BrunoSobrino&text=${body}&user=user-unique-id`)
          let hasill = await tioress.json()
-         m.reply(`${hasill.result}`.trim())   
+         reply(`${hasill.result}`.trim())   
          } catch (qqe) {        
          reply("*[❗] Error en el servidor , no se obtuvieron respuestas de la IA...*\n\n*—◉ Error:*\n" + qqe)  
          }} 
