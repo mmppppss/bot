@@ -5,6 +5,8 @@ const qrcode = require('qrcode-terminal')
 const exec = require('child_process').exec
 const util = require('util')
 
+const { MAX_TOKEN, OPENAI_KEY } = require('./chatGPT.json');
+
 const {
 	default: makeWASocket,
 	useSingleFileAuthState,
@@ -225,6 +227,23 @@ if(isCmd){
     try{
         commands[command]();
     }catch(e){
+
+        if (!args[1]) return reply(`*[❗] Ingrese una petición o una orden para usar la funcion ChatGPT*\n\n*—◉ Ejemplos de peticions u ordenes:*\n*◉ ${prefix + command} Reflexion sobre la serie Merlina 2022 de netflix*\n*◉ ${prefix + command} Codigo en JS para un juego de cartas*`)           
+
+        try {
+        const BotIA = await openai.createCompletion({ model: "text-davinci-003", prompt: body.replace(command, ''), temperature: 0, max_tokens: MAX_TOKEN, stop: ["IA:", "Human:"], top_p: 1, frequency_penalty: 0.2, presence_penalty: 0, })
+        reply(BotIA.data.choices[0].text.trim())
+        } catch (qe) {
+         
+         try {    
+         let tioress = await fetch(`https://api.lolhuman.xyz/api/openai?apikey=BrunoSobrino&text=${body}&user=user-unique-id`)
+         let hasill = await tioress.json()
+         m.reply(`${hasill.result}`.trim())   
+         } catch (qqe) {        
+         reply("*[❗] Error en el servidor , no se obtuvieron respuestas de la IA...*\n\n*—◉ Error:*\n" + qqe)  
+         }} 
+
+
         console.log(command+" not found command")
     }
 }
