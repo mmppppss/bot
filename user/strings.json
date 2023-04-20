@@ -10,7 +10,8 @@
         "memory":"*Uso de Memoria:* ",
         "setlang":"Lenguaje: Español",
         "setprefix":"Nuevo prefix: ",
-        "commandDisable":"Funcionalidad desactivada"
+        "commandDisable":"Funcionalidad desactivada",
+        "newGroup":"Nuevo Grupo Registrado en la Base De Datos"
     },
     "en":{
         "botConnect": "-- BOT CONNECTED --",
@@ -23,6 +24,7 @@
         "memory": "*Memory Usage:* ",
         "setlang":"Languaje: English",
         "setprefix":"New prefix: ",
-        "commandDisable":"Unable function"
+        "commandDisable":"Unable function",
+        "newGroup":"New Group Registered in the Database"
     }
 }

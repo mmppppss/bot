@@ -121,6 +121,11 @@ conn.ev.on('messages.upsert', async(msg) => {
             react("🦔")
         }
 		if(isGroup){
+            if(!users.includes(from)){
+				reply(strings.newGroup);
+				users.push(from);
+				writeJson('database/users.json', users)
+            }
 			const group = await conn.groupMetadata(from);
             const members =  JSON.constructor(group.participants);
 			admins=[]
