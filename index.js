@@ -223,7 +223,7 @@ const commands = {
             response.on('data', (chunk) => {
               data += chunk;
             });
-        response.on('end', () => {
+        await response.on('end', () => {
             text=""
             jsonData=JSON.parse(data.split('"docs":')[1].replace("}})",""))
     //console.log(jsonData)
@@ -232,7 +232,7 @@ const commands = {
                 textData+=("```[#] "+j+"```\n*Nombre:* "+i.title+"\n*Descripcion:* "+i.description+"\n")
                 j++;
             }
-            conn.sendMessage(from,{ text:textData})
+            conn.sendMessage(from,{ text:"==="+textData})
             reply(textData)
         });
         }).on("error", (err) => {
