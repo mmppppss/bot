@@ -7,7 +7,7 @@ const util = require('util')
 
 const {commands}=require("./modules/commands.js")
 
-//const { MAX_TOKEN, OPENAI_KEY } = require('./chatGPT.json');
+const { MAX_TOKEN, OPENAI_KEY } = require('./chatGPT.json');
 
 const {
 	default: makeWASocket,
@@ -21,8 +21,6 @@ const conn = makeWASocket({
 	printQRInTerminal: true,
 	auth: state,
 })
-//const games = require("./plugs/games.js");
-//import win from './plugs/games.js'
 /* -- Variables -- */
 
 const config=JSON.parse(fs.readFileSync("user/config.json")) //configuraciones
@@ -61,12 +59,8 @@ const connectToWA = () => {
 	});
 	
 	conn.ev.on('creds.update', saveState)	
-
-
-    ///check
 }
 
-///////////
  
 conn.ev.on('messages.upsert', async(msg) => {
 	try {
@@ -108,18 +102,6 @@ conn.ev.on('messages.upsert', async(msg) => {
                 reply(strings.commandDisable)
                 return
             }
-/*/            em=["🕛","🕒","🕡","🕘"]
-            em=["🗿","🐄","😾","🏃"]
-            c=0
-            function aa(){
-                if (c < em.length) {
-                    react(em[c]);
-                    c++
-                }
-            }
-            var inter= setInterval(aa,1000)
-            if(c>=em.length)clearInterval(inter)
-            */
             react("🦔")
         }
 		if(isGroup){
@@ -159,8 +141,82 @@ conn.ev.on('messages.upsert', async(msg) => {
 console.log(`${red}MSG:${grn}[${sender} | ${senderName}]:${ylw} ${body}`)
 /* -- Comandos -- */
 
+const commands = {
+      hola: () => reply('Hola '+senderName),
+      adios: () => reply('Adios '+senderName),
+    restart:() =>{
+        if(!isOwner){ return }
+        eval(process.exit())
+    },
+    setlang: ()=> {
+        console.log(strings.setlang)
+        if(args[1]=="es"){
+            strings=languajes.es
+            config.lang="es";
+        }
+        if(args[1]=="en"){
+            strings=languajes.en;
+            config.lang="en";
+        }
+        reply(strings.setlang)
+        writeJson('user/config.json', config)
+    },
+    setprefix:()=>{
+        reply(strings.setprefix+args[1])
+        prefix=args[1];
+        config.prefix=args[1];
+        writeJson('user/config.json', config)
+    },
+    ban:()=>{
+        if(!isOwner){ return }
+		victim=msg.message.extendedTextMessage.contextInfo.participant;
+    	if(victim!=''){
+	    	conn.groupParticipantsUpdate(from,[victim],'remove')
+		    reply('Ban '+victim.split('@')[0])
+    	} else if(body.length>4){
+	    	mention=body.slice(6)
+			victim=mention+'@s.whatsapp.net'
+			conn.groupParticipantsUpdate(from,[victim],'remove')
+    		reply('Ban: '+mention)
+		} else {
+			reply(strings.tagUser)
+		}
+    },
+    add:()=>{
+	    if(!isOwner) return 
+        mention=body.slice(5)
+	    var victim=mention+'@s.whatsapp.net'
+    	conn.groupParticipantsUpdate(from,[victim],'add')
+	    reply('Add: @'+mention)
+    },
+    demote:()=>{
+    	if(!isOwner)return 
+	    mention=body.slice(9)
+    	var victim=mention+'@s.whatsapp.net'
+    	conn.groupParticipantsUpdate(from,[victim],'demote')
+	    reply('Demote: @'+mention)
+    },
+    promote:async()=>{
+    	if(!isOwner)return 
+	    mention=body.slice(10)
+    	var victim=mention+'@s.whatsapp.net'
+	    await conn.groupParticipantsUpdate(from,[victim],'promote')
+    	reply('Promote: @'+mention)
+    },
+    info:()=>{
+    	time=Math.round(process.uptime())
+	    format=""
+    	if(time>60 && time<3600){
+		    time=Math.round(time/60)
+	    	format=" Min"
+    	} else{
+	    	format=" Seg"
+    	}
+	    info=strings.time+ time+format +"\n"+strings.memory+Math.round((process.memoryUsage().rss)/1024/1024) + " mb\nNode "+process.version;
+    	reply(info);
+    }
+}
 
-;
 if(isCmd){
     try{
         commands[command]();
@@ -176,15 +232,11 @@ if(isCmd){
          try {
             pet=body.replaceAll(" ","%20").replace(prefix,"")
          let tioress = await fetch(`https://api.lolhuman.xyz/api/openai?apikey=BrunoSobrino&text=${pet}&user=${OPENAI_KEY}`)
-        //reply(`https://api.lolhuman.xyz/api/openai?apikey=BrunoSobrino&text=${pet}&user=${OPENAI_KEY}`)
          let hasill = await tioress.json()
          reply(`${hasill.result}`.trim())   
          } catch (qqe) {        
          reply("*Error en el servidor , no se obtuvieron respuestas de la IA...*\n\n*—◉ Error:*\n" + qqe)  
          } 
-        //}
-
-
         console.log(command+" not found command")
     }
 }
@@ -196,17 +248,6 @@ case 'a':
 break
 case 'sender':
     reply(JSON.stringify(eval(`(sender)`),null,'\t'));
-break
-case 'restart':
-	if(isOwner){
-		try {
-			process.send('reset')
-		} catch (e) {
-			reply('```ERROR:``` '+ String(e))
-		}
-	}else{
-		reply(strings.onlyOwn);
-	}
 break
 }//fin cases
 
@@ -223,14 +264,6 @@ if(body.startsWith("▢")){
 //	bash(`termux-clipboard-set " ${res}"`)
     reply(""+res)
 }	
-/*
- *
- CUANTO ES *184863415974523550 ÷ -803*=
-
-    *Tiempo:* _30.00_ *Segundo(s)*
-
-    🎁 Recompensa : 2000 🪙
- * */
 if(body.startsWith('$')){
 	if(isOwner){
         cmd = body.slice(2);
