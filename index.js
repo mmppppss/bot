@@ -213,8 +213,10 @@ const commands = {
     	reply(info);
     },
     arcsearch:async()=>{
-        await archiveSearch(q);
-        reply(getText())
+        await archiveSearch("hola");
+        setTimeout(function(){
+            reply(getText())
+            },1000)
     }
 }
 
