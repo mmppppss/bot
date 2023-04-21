@@ -6,7 +6,6 @@ const qrcode = require('qrcode-terminal')
 const exec = require('child_process').exec
 const util = require('util')
 const { MAX_TOKEN, OPENAI_KEY } = require('./chatGPT.json');
-const {archiveSearch, getJson, getText, archiveDown} = require("./plugs/arc.js")
 const {
 	default: makeWASocket,
 	useSingleFileAuthState,
