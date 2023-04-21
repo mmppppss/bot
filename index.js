@@ -1,6 +1,7 @@
 /* -- Modulos -- */
 const fs = require('fs')
 const P = require('pino')
+const https = require('https');
 const qrcode = require('qrcode-terminal')
 const exec = require('child_process').exec
 const util = require('util')
