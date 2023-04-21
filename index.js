@@ -212,7 +212,7 @@ const commands = {
 	    info=strings.time+ time+format +"\n"+strings.memory+Math.round((process.memoryUsage().rss)/1024/1024) + " mb\nNode "+process.version;
     	reply(info);
     },
-    arcsearch:async()=>{
+    arcsearch:()=>{
         let jsonData ={};
         let textData="";
         const search = body
@@ -223,7 +223,7 @@ const commands = {
             response.on('data', (chunk) => {
               data += chunk;
             });
-        await response.on('end', () => {
+        response.on('end', () => {
             text=""
             jsonData=JSON.parse(data.split('"docs":')[1].replace("}})",""))
     //console.log(jsonData)
