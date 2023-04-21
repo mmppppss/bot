@@ -214,7 +214,7 @@ const commands = {
     },
     arcsearch:async()=>{
         await archiveSearch(q);
-        reply(getText)
+        reply(getText())
     }
 }
 
