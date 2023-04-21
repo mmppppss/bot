@@ -4,9 +4,6 @@ const P = require('pino')
 const qrcode = require('qrcode-terminal')
 const exec = require('child_process').exec
 const util = require('util')
-
-const {commands}=require("./modules/commands.js")
-
 const { MAX_TOKEN, OPENAI_KEY } = require('./chatGPT.json');
 
 const {
