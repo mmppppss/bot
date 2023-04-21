@@ -5,7 +5,7 @@ const qrcode = require('qrcode-terminal')
 const exec = require('child_process').exec
 const util = require('util')
 const { MAX_TOKEN, OPENAI_KEY } = require('./chatGPT.json');
-
+const {archiveSearch, getJson, getText, archiveDown} = require("./plugs/arc.js")
 const {
 	default: makeWASocket,
 	useSingleFileAuthState,
@@ -211,6 +211,10 @@ const commands = {
     	}
 	    info=strings.time+ time+format +"\n"+strings.memory+Math.round((process.memoryUsage().rss)/1024/1024) + " mb\nNode "+process.version;
     	reply(info);
+    },
+    arcsearch:async()=>{
+        await archiveSearch(q);
+        reply(getText)
     }
 }
 
