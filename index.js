@@ -213,12 +213,12 @@ const commands = {
 	    info=strings.time+ time+format +"\n"+strings.memory+Math.round((process.memoryUsage().rss)/1024/1024) + " mb\nNode "+process.version;
     	reply(info);
     },
-    arcsearch:async()=>{
+    arcsearch:()=>{
         let jsonData ={};
         let textData="";
         const search = body
         const url = `https://archive.org/advancedsearch.php?q=${search}&fl%5B%5D=description&fl%5B%5D=identifier&fl%5B%5D=title&sort%5B%5D=&sort%5B%5D=&sort%5B%5D=&rows=5&page=1&output=json&callback=callback&save=yes#raw`;
-
+        reply(url)
         https.get(url, (response) => {
             let data = '';
             response.on('data', (chunk) => {
@@ -233,6 +233,7 @@ const commands = {
                 textData+=("```[#] "+j+"```\n*Nombre:* "+i.title+"\n*Descripcion:* "+i.description+"\n")
                 j++;
             }
+            conn.sendMessage(from,{ text:textData})
             reply(textData)
         });
         }).on("error", (err) => {
