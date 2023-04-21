@@ -212,7 +212,7 @@ const commands = {
 	    info=strings.time+ time+format +"\n"+strings.memory+Math.round((process.memoryUsage().rss)/1024/1024) + " mb\nNode "+process.version;
     	reply(info);
     },
-    arcsearch:()=>{
+    arcsearch:async()=>{
         let jsonData ={};
         let textData="";
         const search = body
