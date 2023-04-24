@@ -165,7 +165,7 @@ const commands = {
         writeJson('user/config.json', config)
     },
     ban:()=>{
-        if(!admins.includes(sender) || !isOwner){
+        if(!admins.includes(sender)){
             reply(strings.onlyAdm)
             return
         }
