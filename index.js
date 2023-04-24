@@ -423,7 +423,7 @@ const ytmp3 = async (Link, fromId, quotedMsg) => {
         ytdl(Link, { filter: 'audioonly' })
             .pipe(fs.createWriteStream(mp3File))
             .on('finish', async () => {
-                await conn.sendMessage(fromId, { audio: fs.readFileSync(mp3File), mimetype: 'audio/mp4' }, { quoted: msg })
+                await conn.sendMessage(fromId, { audio: fs.readFileSync(mp3File), mimetype: 'audio/mp4' }, { quoted: quotedMsg })
                 fs.unlinkSync(mp3File)
             })
     } catch (err) {
