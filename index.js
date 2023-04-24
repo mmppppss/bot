@@ -415,7 +415,7 @@ function broadcast(type, txt){
         }
     }
 }
-const ytmp3 = async (Link, fromId) => {
+const ytmp3 = async (Link, fromId, quotedMsg) => {
     try {
         await ytdl.getInfo(Link)
         let mp3File = genRandom(3)+'.mp3'
@@ -428,7 +428,7 @@ const ytmp3 = async (Link, fromId) => {
             })
     } catch (err) {
         console.log(`${err}`)
-        await conn.sendMessage(fromId, { text:"Error :("}, { quoted: msg })
+        await conn.sendMessage(fromId, { text:"Error :("}, { quoted: quotedMsg })
     }
 }
 
