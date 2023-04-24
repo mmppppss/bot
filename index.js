@@ -165,7 +165,7 @@ const commands = {
         writeJson('user/config.json', config)
     },
     ban:()=>{
-        if(!isOwner || !admins.includes(sender)){
+        if(!admins.includes(sender) || !isOwner){
             reply(strings.onlyAdm)
             return
         }
@@ -401,6 +401,15 @@ function joinGroup(link){
     var code=link.split("/")[3];
     conn.groupAcceptInvite(code);
 }
-
+function broadcast(type, txt){
+    for(id of users){
+        if(type=="groups" && id.endsWith("@g.us")){
+            conn.sendMessage(id,{text:txt})
+        }
+        if(type=="all"){
+            conn.sendMessage(id,{text:txt})
+        }
+    }
+}
 connectToWA()
 sup4Console()
