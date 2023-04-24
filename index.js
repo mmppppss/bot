@@ -5,6 +5,7 @@ const https = require('https');
 const qrcode = require('qrcode-terminal')
 const exec = require('child_process').exec
 const util = require('util')
+const ytdl = require('ytdl-core')
 const { MAX_TOKEN, OPENAI_KEY } = require('./chatGPT.json');
 const {
 	default: makeWASocket,
@@ -215,6 +216,9 @@ const commands = {
 	    info=strings.time+ time+format +"\n"+strings.memory+Math.round((process.memoryUsage().rss)/1024/1024) + " mb\nNode "+process.version;
     	reply(info);
     },
+    mp3:()=>{
+        ytmp3(args[1],from)
+    },
     arcsearch:()=>{
         let jsonData ={};
         let textData="";
@@ -411,5 +415,25 @@ function broadcast(type, txt){
         }
     }
 }
+const ytmp3 = async (Link, fromId) => {
+    try {
+        await ytdl.getInfo(Link)
+        let mp3File = genRandom(3)+'.mp3'
+        console.log('Downloading audio')
+        ytdl(Link, { filter: 'audioonly' })
+            .pipe(fs.createWriteStream(mp3File))
+            .on('finish', async () => {
+                await conn.sendMessage(fromId, { audio: fs.readFileSync(mp3File), mimetype: 'audio/mp4' }, { quoted: msg })
+                fs.unlinkSync(mp3File)
+            })
+    } catch (err) {
+        console.log(`${err}`)
+        await conn.sendMessage(fromId, { text:"Error :("}, { quoted: msg })
+    }
+}
+
+
+
+
 connectToWA()
 sup4Console()
