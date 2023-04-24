@@ -219,6 +219,9 @@ const commands = {
     mp3:()=>{
         ytmp3(args[1],from,msg)
     },
+    mp4:()=>{
+        ytmp4(args[1],from,msg)
+    },
     arcsearch:()=>{
         let jsonData ={};
         let textData="";
@@ -418,7 +421,7 @@ function broadcast(type, txt){
 const ytmp3 = async (Link, fromId, quotedMsg) => {
     try {
         await ytdl.getInfo(Link)
-        let mp3File = genRandom(3)+'.mp3'
+        let mp3File = './download/'+genRandom(4)+'ytdl.mp3'
         console.log('Downloading audio')
         ytdl(Link, { filter: 'audioonly' })
             .pipe(fs.createWriteStream(mp3File))
@@ -432,7 +435,23 @@ const ytmp3 = async (Link, fromId, quotedMsg) => {
     }
 }
 
-
+const ytmp4 = async (Link, fromId, quotedMsg) => {
+    try {
+        await ytdl.getInfo(Link)
+        console.log(ytdl.getInfo(Link))
+        let mp4File = './download/'+ genRandom(4)+'ytdl.mp4'
+        console.log('Downloading audio')
+        ytdl(Link)
+            .pipe(fs.createWriteStream(mp4File))
+            .on('finish', async () => {
+                await conn.sendMessage(fromId, { video: fs.readFileSync(mp4File), caption: mess.succes, gifPlayback: false }, { quoted: quotedMsg })
+                fs.unlinkSync(mp4File)
+            })
+    } catch (err) {
+        console.log(`${err}`)
+        await conn.sendMessage(fromId, { text:"Error :("}, { quoted: quotedMsg })
+    }
+}
 
 
 connectToWA()
