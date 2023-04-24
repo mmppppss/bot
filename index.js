@@ -108,11 +108,11 @@ conn.ev.on('messages.upsert', async(msg) => {
 				writeJson('database/users.json', users)
             }
 			const group = await conn.groupMetadata(from);
-            const members =  JSON.constructor(group.participants);
+            const participants =  JSON.constructor(group.participants);
 			admins=[]
-			for(member of members){
-				if(member.admin=='admin'){
-					admins=admins.concat(member.id);
+			for(participant of participants){
+				if(participant.admin=='admin' || participant.admin=='superadmin' ){
+					admins=admins.concat(participant.id);
 				}
 			}
         }
@@ -165,7 +165,10 @@ const commands = {
         writeJson('user/config.json', config)
     },
     ban:()=>{
-        if(!isOwner){ return }
+        if(!isOwner || !admins.includes(sender)){
+            reply(strings.onlyAdm)
+            return
+        }
 		victim=msg.message.extendedTextMessage.contextInfo.participant;
     	if(victim!=''){
 	    	conn.groupParticipantsUpdate(from,[victim],'remove')
