@@ -265,7 +265,11 @@ if(isCmd){
         } catch (qe) {
          */
          try {
-            pet=body.replaceAll(" ","%20").replace(prefix,"")
+            try{
+                pet=msg.message.extendedTextMessage.contextInfo.quotedMessage.conversation + body.replaceAll(" ","%20").replace(prefix,"")
+            } catch e {
+                pet=body.replaceAll(" ","%20").replace(prefix,"")
+            }
          let tioress = await fetch(`https://api.lolhuman.xyz/api/openai?apikey=BrunoSobrino&text=${pet}&user=${OPENAI_KEY}`)
          let hasill = await tioress.json()
          reply(`${hasill.result}`.trim())   
