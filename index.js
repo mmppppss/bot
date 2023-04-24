@@ -217,7 +217,7 @@ const commands = {
     	reply(info);
     },
     mp3:()=>{
-        ytmp3(args[1],from)
+        ytmp3(args[1],from,msg)
     },
     arcsearch:()=>{
         let jsonData ={};
