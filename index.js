@@ -442,13 +442,14 @@ const ytmp3 = async (Link, fromId, quotedMsg) => {
 const ytmp4 = async (Link, fromId, quotedMsg) => {
     try {
         let info = await ytdl.getInfo(Link)
-        console.log(info.player_response.videoDetails)
+        info=info.player_response.videoDetails
+        info=`*${info.title}*\nby:*${info.author}* \n${info.shortDescription}` 
         let mp4File = './download/'+ genRandom(4)+'ytdl.mp4'
         console.log('Downloading audio')
         ytdl(Link)
             .pipe(fs.createWriteStream(mp4File))
             .on('finish', async () => {
-                await conn.sendMessage(fromId, { video: fs.readFileSync(mp4File), gifPlayback: false }, { quoted: quotedMsg })
+                await conn.sendMessage(fromId, { video: fs.readFileSync(mp4File), gifPlayback: false, caption:info}, { quoted: quotedMsg })
                 fs.unlinkSync(mp4File)
             })
     } catch (err) {
