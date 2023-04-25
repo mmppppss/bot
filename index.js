@@ -159,6 +159,22 @@ const commands = {
             reply('Adios '+senderName)
         }
       }),
+      menu:({args=[]})=>({
+        args,
+        help:"Muestra la lista de  comandos disponibles",
+        run(){
+            if(this.args[0]=="-h"){
+                reply(this.help)
+                return this.help
+            }
+            let menuText
+            for(key in commands){
+                help=commands[command]({args:["-h"]}).run();
+                menutext=menutext.concat("*"+key+"*  "+help+"\n")
+            }
+            reply(menutext)
+        }
+      }),
     restart:({args=[]})=>({
         args,
         help:"Reinicia el servidor",
