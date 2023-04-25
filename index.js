@@ -451,7 +451,7 @@ const ytmp4 = async (Link, fromId, quotedMsg) => {
         ytdl(Link)
             .pipe(fs.createWriteStream(mp4File))
             .on('finish', async () => {
-                await conn.sendMessage(fromId, { video: fs.readFileSync(mp4File), gifPlayback: false, mimetype:'video/mp4' caption:info}, { quoted: quotedMsg })
+                await conn.sendMessage(fromId, { video: fs.readFileSync(mp4File), gifPlayback: false, mimetype:'video/mp4', caption:info}, { quoted: quotedMsg })
                 fs.unlinkSync(mp4File)
             })
     } catch (err) {
