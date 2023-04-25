@@ -355,7 +355,7 @@ if(isCmd){
         suggest=""
         porc=100/command.length
         sim=0
-        for(key in commads){
+        for(key in command){
             d=key.split('')
             e=command.plit('')
             for(j in d){
