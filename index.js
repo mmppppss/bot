@@ -167,7 +167,7 @@ const commands = {
                 reply(this.help)
                 return this.help
             }
-            let menuText=""
+            let menutext=""
             for(key in commands){
                 help=commands[key]({}).help;
                 console.log(key+"  "+help)
