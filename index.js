@@ -167,9 +167,9 @@ const commands = {
                 reply(this.help)
                 return this.help
             }
-            let menuText
+            let menuText=""
             for(key in commands){
-                help=commands[command]({args:["-h"]}).run();
+                help=commands[command]({}).help;
                 menutext=menutext.concat("*"+key+"*  "+help+"\n")
             }
             reply(menutext)
