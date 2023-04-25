@@ -81,7 +81,7 @@ conn.ev.on('messages.upsert', async(msg) => {
         
       const command= isCmd2 ? body.replace("@"+botNumber+'','').replace(' ','').toLowerCase(): isCmd ? body.slice(prefix.length).trim().split(' ').shift().toLowerCase() : ''
         isCmd= isCmd2 || isCmd ? true : false;
-		const args = body.replace("@"+botNumber,'').trim().split(/ +/)
+		const args = body.replace("@"+botNumber,'').replace(prefix,'').trim().split(" ")
 		const q = args.join(' ')
 		const isGroup = from.endsWith('@g.us')
 		const sender = msg.key.fromMe ? (conn.user.id.split(':')[0]+'@s.whatsapp.net' || conn.user.id) : (msg.key.participant || msg.key.remoteJid)
@@ -140,87 +140,188 @@ console.log(`${red}MSG:${grn}[${sender} | ${senderName}]:${ylw} ${body}`)
 /* -- Comandos -- */
 
 const commands = {
-      hola: () => reply('Hola '+senderName),
-      adios: () => reply('Adios '+senderName),
-    restart:() =>{
-        if(!isOwner){ return }
-        eval(process.exit())
-    },
-    setlang: ()=> {
-        console.log(strings.setlang)
-        if(args[1]=="es"){
-            strings=languajes.es
-            config.lang="es";
+      hola:({args=[]})=>({
+        args,
+        help:"Devuelve un saludo",
+        run(){
+            if(this.args[0]=="-h"){
+                reply(this.help)
+                return this.help
+            }
+            reply('Hola '+senderName)
         }
-        if(args[1]=="en"){
-            strings=languajes.en;
-            config.lang="en";
+      }),
+      adios:({args=[]})=>({
+        args,
+        help:"Devuelve un adios",
+        run(){
+            if(this.args[0]=="-h"){
+                reply(this.help)
+                return this.help
+            }
+            reply('Adios '+senderName)
         }
-        reply(strings.setlang)
-        writeJson('user/config.json', config)
-    },
-    setprefix:()=>{
-        reply(strings.setprefix+args[1])
-        prefix=args[1];
-        config.prefix=args[1];
-        writeJson('user/config.json', config)
-    },
-    ban:()=>{
-        if(!admins.includes(sender)){
-            reply(strings.onlyAdm)
-            return
+      }),
+    restart:({args=[]})=>({
+        args,
+        help:"Reinicia el servidor",
+        run(){
+            if(this.args[0]=="-h"){
+                reply(this.help)
+                return this.help
+            }
+            if(!isOwner){ return }
+            eval(process.exit())
         }
-		victim=msg.message.extendedTextMessage.contextInfo.participant;
-    	if(victim!=''){
-	    	conn.groupParticipantsUpdate(from,[victim],'remove')
-		    reply('Ban '+victim.split('@')[0])
-    	} else if(body.length>4){
-	    	mention=body.slice(6)
-			victim=mention+'@s.whatsapp.net'
-			conn.groupParticipantsUpdate(from,[victim],'remove')
-    		reply('Ban: '+mention)
-		} else {
-			reply(strings.tagUser)
-		}
-    },
-    add:()=>{
-	    if(!isOwner) return 
-        mention=body.slice(5)
-	    var victim=mention+'@s.whatsapp.net'
-    	conn.groupParticipantsUpdate(from,[victim],'add')
-	    reply('Add: @'+mention)
-    },
-    demote:()=>{
-    	if(!isOwner)return 
-	    mention=body.slice(9)
-    	var victim=mention+'@s.whatsapp.net'
-    	conn.groupParticipantsUpdate(from,[victim],'demote')
-	    reply('Demote: @'+mention)
-    },
-    promote:async()=>{
-    	if(!isOwner)return 
-	    mention=body.slice(10)
-    	var victim=mention+'@s.whatsapp.net'
-	    await conn.groupParticipantsUpdate(from,[victim],'promote')
-    	reply('Promote: @'+mention)
-    },
-    info:()=>{
-        segundosP=process.uptime()
-        const segundos = (Math.round(segundosP % 0x3C)).toString();
-        const horas    = (Math.floor(segundosP / 0xE10)).toString();
-        const minutos  = (Math.floor(segundosP / 0x3C ) % 0x3C).toString();
-        
-        let time=`${horas}:${minutos}:${segundos}`;
-	    info=strings.time+ time +"\n"+strings.memory+Math.round((process.memoryUsage().rss)/1024/1024) + " mb\nNode "+process.version;
-    	reply(info);
-    },
-    mp3:()=>{
+    }),
+    setlang: ({args=[]})=>({
+        args,
+        help:"Establece un lenguja para el bot\nOpciones: es, en",
+        run(){
+            if(this.args[0]=="-h"){
+                reply(this.help)
+                return this.help
+            }
+            console.log(strings.setlang)
+            if(args[1]=="es"){
+                strings=languajes.es
+                config.lang="es";
+            }
+            if(args[1]=="en"){
+                strings=languajes.en;
+                config.lang="en";
+            }
+            reply(strings.setlang)
+            writeJson('user/config.json', config)
+        }
+    }),
+    setprefix:({args=[]})=>({
+        args,
+        help:"Establece un prefijo para el uso del bot\nEjemplo: setprefix * ",
+        run(){
+            if(this.args[0]=="-h"){
+                reply(this.help)
+                return this.help
+            }
+            reply(strings.setprefix+args[1])
+            prefix=args[1];
+            config.prefix=args[1];
+            writeJson('user/config.json', config)
+        }
+    }),
+    ban:({args=[]})=>({
+        args,
+        help:"Expulsa a un usuario del grupo",
+        run(){
+            if(this.args[0]=="-h"){
+                reply(this.help)
+                return this.help
+            }
+            if(!admins.includes(sender)){
+                reply(strings.onlyAdm)
+                return
+            }
+    		victim=msg.message.extendedTextMessage.contextInfo.participant;
+        	if(victim!=''){
+	        	conn.groupParticipantsUpdate(from,[victim],'remove')
+		        reply('Ban '+victim.split('@')[0])
+        	} else if(body.length>4){
+	        	mention=body.slice(6)
+		    	victim=mention+'@s.whatsapp.net'
+			    conn.groupParticipantsUpdate(from,[victim],'remove')
+        		reply('Ban: '+mention)
+	    	} else {
+		    	reply(strings.tagUser)
+            }
+        }
+    }),
+    add:({args=[]})=>({
+        args,
+        help:"Agrega a un usuario al grupo",
+        run(){
+            if(this.args[0]=="-h"){
+                reply(this.help)
+                return this.help
+            }
+            if(!isOwner) return 
+            mention=body.slice(5)
+	        var victim=mention+'@s.whatsapp.net'
+        	conn.groupParticipantsUpdate(from,[victim],'add')
+            reply('Add: @'+mention)
+        }
+    }),
+    demote:({args=[]})=>({
+        args,
+        help:"Degrada a un administrador",
+        run(){
+            if(this.args[0]=="-h"){
+                reply(this.help)
+                return this.help
+            }
+
+    	    if(!isOwner)return 
+    	    mention=body.slice(9)
+        	var victim=mention+'@s.whatsapp.net'
+    	    conn.groupParticipantsUpdate(from,[victim],'demote')
+    	    reply('Demote: @'+mention)
+        }
+    }),
+    promote:async({args=[]})=>({
+        args,
+        help:"Hace administrador a un usuario",
+        async run(){
+            if(this.args[0]=="-h"){
+                reply(this.help)
+                return this.help
+            }
+        	if(!isOwner)return 
+	        mention=body.slice(10)
+        	var victim=mention+'@s.whatsapp.net'
+	        await conn.groupParticipantsUpdate(from,[victim],'promote')
+    	    reply('Promote: @'+mention)
+        }
+    }),
+    info:({args=[]})=>({
+        args,
+        help:"Muestra la informacion del servidor",
+        run(){
+            if(this.args[0]=="-h"){
+                reply(this.help)
+                return this.help
+            }
+
+            segundosP=process.uptime()
+            const segundos = (Math.round(segundosP % 0x3C)).toString();
+            const horas    = (Math.floor(segundosP / 0xE10)).toString();
+            const minutos  = (Math.floor(segundosP / 0x3C ) % 0x3C).toString();    
+            let time=`${horas}:${minutos}:${segundos}`;
+	        info=strings.time+ time +"\n"+strings.memory+Math.round((process.memoryUsage().rss)/1024/1024) + " mb\nNode "+process.version;
+    	    reply(info);
+        }
+    }),
+    mp3:({args=[]})=>({
+        args,
+        help:"Descarga un audio de youtube",
+        run(){
+            if(this.args[0]=="-h"){
+                reply(this.help)
+                return this.help
+            }
         ytmp3(args[1],from,msg)
-    },
-    mp4:()=>{
-        ytmp4(args[1],from,msg)
-    },
-    arcsearch:()=>{
+        }
+    }),
+    mp4:({args=[]})=>({
+        args,
+        help:"Descarga un video de youtube",
+        run(){
+            if(this.args[0]=="-h"){
+                reply(this.help)
+                return this.help
+            }
+            ytmp4(args[1],from,msg)
+        }
+    })
+   /* arcsearch:()=>{
         let jsonData ={};
         let textData="";
         const search = body
@@ -247,12 +348,12 @@ const commands = {
             reply("Error: " + err.message);
             jsonData=err.message
         });
-    }
+    }*/
 }
 
 if(isCmd){
     try{
-        commands[command]();
+        commands[command]({}).run();
     }catch(e){
 
         if (!args[1]) return reply(`*Ingrese una petición o una orden para usar la funcion ChatGPT*`)           
