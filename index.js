@@ -74,12 +74,9 @@ conn.ev.on('messages.upsert', async(msg) => {
 		const from = msg.key.remoteJid
 		const quoted = type == 'extendedTextMessage' && msg.message.extendedTextMessage.contextInfo != null ? msg.message.extendedTextMessage.contextInfo.quotedMessage || [] : []
 		const body = (type === 'conversation') ? msg.message.conversation : (type === 'extendedTextMessage') ? msg.message.extendedTextMessage.text : (type == 'imageMessage') && msg.message.imageMessage.caption ? msg.message.imageMessage.caption : (type == 'videoMessage') && msg.message.videoMessage.caption ? msg.message.videoMessage.caption : ''	
-	var isCmd= body.startsWith(prefix)
-       // const isCmd = body.startsWith("@"+botNumber)
+    	var isCmd= body.startsWith(prefix)
         var isCmd2 = body.includes(botNumber); 
-	//	const command = isCmd ? body.slice(prefix.length).trim().split(' ').shift().toLowerCase() ||
-        
-      const command= isCmd2 ? body.replace("@"+botNumber+'','').replace(' ','').toLowerCase(): isCmd ? body.slice(prefix.length).trim().split(' ').shift().toLowerCase() : ''
+        const command= isCmd2 ? body.replace("@"+botNumber+'','').replace(' ','').toLowerCase(): isCmd ? body.slice(prefix.length).trim().split(' ').shift().toLowerCase() : ''
         isCmd= isCmd2 || isCmd ? true : false;
 		const args = body.replace("@"+botNumber,'').replace(command,'').replace(prefix,'').trim().split(" ")
 		const q = args.join(' ')
@@ -94,7 +91,7 @@ conn.ev.on('messages.upsert', async(msg) => {
         }
         const react=(emoji)=>{
            conn.sendMessage(from, {react:{text:emoji, key:msg.key}})
-}
+        }
         if(isCmd){
             if(disable.includes(command)){
                 reply(strings.commandDisable)
@@ -355,9 +352,25 @@ if(isCmd){
     try{
         commands[command]({args:args}).run();
     }catch(e){
-
-        if (!args[1]) return reply(`*Ingrese una petición o una orden para usar la funcion ChatGPT*`)           
-
+        suggest=""
+        porc=100/command.length
+        sim=0
+        for(key in commads){
+            d=key.split('')
+            e=command.plit('')
+            for(j in d){
+                if(d[j]==e[j]){act+=porc}
+            }
+            if(act>sim){
+                suggest=i
+                sim=act
+            }
+        }
+        if(sim>50){
+            reply("Comando no encontrado\n\nSugerencia:  *"+suggest+"*  "+sim+"%\n\n*"+prefix+"menu*   Para ver todos los comandos" )
+            return
+        }
+        if (!args[0]) return reply(`*Ingrese una petición o una orden para usar la funcion ChatGPT*`)
         /*try {
         const BotIA = await openai.createCompletion({ model: "text-davinci-003", prompt: body.replace(command, ''), temperature: 0, max_tokens: MAX_TOKEN, stop: ["IA:", "Human:"], top_p: 1, frequency_penalty: 0.2, presence_penalty: 0, })
         reply(BotIA.data.choices[0].text.trim())
