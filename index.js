@@ -183,11 +183,11 @@ const commands = {
                 return this.help
             }
             console.log(strings.setlang)
-            if(args[1]=="es"){
+            if(this.args[0]=="es"){
                 strings=languajes.es
                 config.lang="es";
             }
-            if(args[1]=="en"){
+            if(this.args[0]=="en"){
                 strings=languajes.en;
                 config.lang="en";
             }
@@ -204,8 +204,8 @@ const commands = {
                 return this.help
             }
             reply(strings.setprefix+args[1])
-            prefix=args[1];
-            config.prefix=args[1];
+            prefix=this.args[0];
+            config.prefix=this.args[0];
             writeJson('user/config.json', config)
         }
     }),
