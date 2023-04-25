@@ -363,7 +363,7 @@ if(isCmd){
                 if(d[j]==e[j]){act+=porc}
             }
             if(act>sim){
-                suggest=i
+                suggest=key
                 sim=act
             }
         }
