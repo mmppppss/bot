@@ -357,7 +357,7 @@ if(isCmd){
         sim=0
         for(key in command){
             d=key.split('')
-            e=command.plit('')
+            e=command.split('')
             for(j in d){
                 if(d[j]==e[j]){act+=porc}
             }
