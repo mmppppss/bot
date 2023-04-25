@@ -170,8 +170,10 @@ const commands = {
             let menuText=""
             for(key in commands){
                 help=commands[key]({}).help;
+                console.log(key+"  "+help)
                 menutext=menutext.concat("*"+key+"*  "+help+"\n")
             }
+            console.log(menutext)
 
             reply(menutext)
         }
@@ -369,6 +371,7 @@ if(isCmd){
     try{
         commands[command]({args:args}).run();
     }catch(e){
+        console.log(e);
         suggest=""
         porc=100/command.length
         sim=0
