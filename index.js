@@ -169,9 +169,10 @@ const commands = {
             }
             let menuText=""
             for(key in commands){
-                help=commands[command]({}).help;
+                help=commands[key]({}).help;
                 menutext=menutext.concat("*"+key+"*  "+help+"\n")
             }
+
             reply(menutext)
         }
       }),
