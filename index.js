@@ -358,6 +358,7 @@ if(isCmd){
         for(key in command){
             d=key.split('')
             e=command.split('')
+            act=0
             for(j in d){
                 if(d[j]==e[j]){act+=porc}
             }
