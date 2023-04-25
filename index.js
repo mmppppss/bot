@@ -205,15 +205,13 @@ const commands = {
     	reply('Promote: @'+mention)
     },
     info:()=>{
-    	time=Math.round(process.uptime())
-	    format=""
-    	if(time>60 && time<3600){
-		    time=Math.round(time/60)
-	    	format=" Min"
-    	} else{
-	    	format=" Seg"
-    	}
-	    info=strings.time+ time+format +"\n"+strings.memory+Math.round((process.memoryUsage().rss)/1024/1024) + " mb\nNode "+process.version;
+        segundosP=process.uptime()
+        const segundos = (Math.round(segundosP % 0x3C)).toString();
+        const horas    = (Math.floor(segundosP / 0xE10)).toString();
+        const minutos  = (Math.floor(segundosP / 0x3C ) % 0x3C).toString();
+        
+        let time=`${horas}:${minutos}:${segundos}`;
+	    info=strings.time+ time +"\n"+strings.memory+Math.round((process.memoryUsage().rss)/1024/1024) + " mb\nNode "+process.version;
     	reply(info);
     },
     mp3:()=>{
