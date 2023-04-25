@@ -442,7 +442,7 @@ const ytmp3 = async (Link, fromId, quotedMsg) => {
 const ytmp4 = async (Link, fromId, quotedMsg) => {
     try {
         let info = await ytdl.getInfo(Link)
-        console.log(info)
+        console.log(info.player_response.videoDetails)
         let mp4File = './download/'+ genRandom(4)+'ytdl.mp4'
         console.log('Downloading audio')
         ytdl(Link)
