@@ -81,7 +81,7 @@ conn.ev.on('messages.upsert', async(msg) => {
         
       const command= isCmd2 ? body.replace("@"+botNumber+'','').replace(' ','').toLowerCase(): isCmd ? body.slice(prefix.length).trim().split(' ').shift().toLowerCase() : ''
         isCmd= isCmd2 || isCmd ? true : false;
-		const args = body.replace("@"+botNumber,'').replace(prefix,'').trim().split(" ")
+		const args = body.replace("@"+botNumber,'').replace(command,'').replace(prefix,'').trim().split(" ")
 		const q = args.join(' ')
 		const isGroup = from.endsWith('@g.us')
 		const sender = msg.key.fromMe ? (conn.user.id.split(':')[0]+'@s.whatsapp.net' || conn.user.id) : (msg.key.participant || msg.key.remoteJid)
@@ -353,7 +353,7 @@ const commands = {
 
 if(isCmd){
     try{
-        commands[command]({}).run();
+        commands[command]({args:args}).run();
     }catch(e){
 
         if (!args[1]) return reply(`*Ingrese una petición o una orden para usar la funcion ChatGPT*`)           
