@@ -424,13 +424,15 @@ function broadcast(type, txt){
 }
 const ytmp3 = async (Link, fromId, quotedMsg) => {
     try {
-        await ytdl.getInfo(Link)
+        let info = await ytdl.getInfo(Link)
+        info=info.player_response.videoDetails
+        info=`_${info.title}_\n\nby:_${info.author}_ \n\n\n${info.shortDescription}` 
         let mp3File = './download/'+genRandom(4)+'ytdl.mp3'
         console.log('Downloading audio')
         ytdl(Link, { filter: 'audioonly' })
             .pipe(fs.createWriteStream(mp3File))
             .on('finish', async () => {
-                await conn.sendMessage(fromId, { audio: fs.readFileSync(mp3File), mimetype: 'audio/mp4' }, { quoted: quotedMsg })
+                await conn.sendMessage(fromId, { audio: fs.readFileSync(mp3File), mimetype: 'audio/mpeg', caption:info }, { quoted: quotedMsg })
                 fs.unlinkSync(mp3File)
             })
     } catch (err) {
@@ -443,13 +445,13 @@ const ytmp4 = async (Link, fromId, quotedMsg) => {
     try {
         let info = await ytdl.getInfo(Link)
         info=info.player_response.videoDetails
-        info=`*${info.title}*\nby:*${info.author}* \n${info.shortDescription}` 
+        info=`_${info.title}_\n\nby:_${info.author}_ \n\n\n${info.shortDescription}` 
         let mp4File = './download/'+ genRandom(4)+'ytdl.mp4'
         console.log('Downloading audio')
         ytdl(Link)
             .pipe(fs.createWriteStream(mp4File))
             .on('finish', async () => {
-                await conn.sendMessage(fromId, { video: fs.readFileSync(mp4File), gifPlayback: false, caption:info}, { quoted: quotedMsg })
+                await conn.sendMessage(fromId, { video: fs.readFileSync(mp4File), gifPlayback: false, mimetype:'video/mp4' caption:info}, { quoted: quotedMsg })
                 fs.unlinkSync(mp4File)
             })
     } catch (err) {
