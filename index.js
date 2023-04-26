@@ -621,6 +621,10 @@ const archDown=async(link,fromId, quotedMsg)=>{
             name=JSON.stringify(jsonData.files).split(":")[0].replaceAll('"','').replace('{','')
             downLink="https://"+jsonData.server+jsonData.dir+name
             type=name.split(".")[1]
+            if(jsonData[name].size > 262144000){
+                conn.sendMessage(fromId,{ text:"Archive mayor a 250mb"},{quoted:quotedMsg})
+                return
+            }
             jsonData={
                 archName:name,
                 archUrl:downLink,
@@ -632,7 +636,7 @@ const archDown=async(link,fromId, quotedMsg)=>{
                 .pipe(fs.createWriteStream(dest))
                 .on('close', () => {
                     console.log('Archivo descargado exitosamente.');
-                    conn.sendMessage(fromId,{ text:"deacargado"},{quoted:quotedMsg})
+                    conn.sendMessage(fromId,{document:{url:dest}, fileName:name, mimetype:type},{quoted:quotedMsg})
                 });
         });
     });
