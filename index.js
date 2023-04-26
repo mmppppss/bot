@@ -607,7 +607,7 @@ const archSearch= async(text, fromId, quotedMsg)=>{
             jsonData=err.message
         });
 }
-const archDown=async(link)=>{
+const archDown=async(link,fromId, quotedMsg)=>{
     url=`${link}&output=json`
     https.get(url, (response) => {
         let data = '';
@@ -628,10 +628,11 @@ const archDown=async(link)=>{
             }
             console.log(jsonData)
             let dest = './download'+name;
-            request(downlink)
+            request(downLink)
                 .pipe(fs.createWriteStream(dest))
                 .on('close', () => {
                     console.log('Archivo descargado exitosamente.');
+                    conn.sendMessage(fromId,{ text:"deacargado"},{quoted:quotedMsg})
                 });
         });
     });
