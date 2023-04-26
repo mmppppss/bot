@@ -316,7 +316,7 @@ const commands = {
             const segundos = (Math.round(segundosP % 0x3C)).toString();
             const horas    = (Math.floor(segundosP / 0xE10)).toString();
             const minutos  = (Math.floor(segundosP / 0x3C ) % 0x3C).toString();    
-            let time=`${horas}:${minutos}:${segundos}`;
+            let time=`${horas} HH, ${minutos} MM, ${segundos} SS`;
 	        info=strings.time+ time +"\n"+strings.memory+Math.round((process.memoryUsage().rss)/1024/1024) + " mb\nNode "+process.version;
     	    reply(info);
         }
@@ -351,7 +351,18 @@ const commands = {
                 reply(this.help)
                 return this.help
             }
-         archSearch(body,from,msg)
+         archSearch(args.toString().replaceAll(',',' '),from,msg)
+        }
+    }),
+    archivedl:({args=[]})=>({
+        args,
+        help:"Descarga un archivo de archive.org",
+        run(){
+            if(this.args[0]=="-h"){
+                reply(this.help)
+                return this.help
+            }
+         archDown(args[0],from,msg)
         }
     })
 }
