@@ -32,6 +32,11 @@ const users=JSON.parse(fs.readFileSync("database/users.json")); //usuarios regis
 const noreg=[];
 let reg=config.reg
 let disable=config.disable;
+
+
+/* temp vars */
+let asearch={};
+
 /* -- Colores -- */
 let wht='\033[00m'
 let blk='\033[30m'
@@ -592,10 +597,10 @@ const archSearch= async(text, fromId, quotedMsg)=>{
     //console.log(jsonData)
             j=0;
             for(i of jsonData){
-                textData+=("```[#] "+j+"```\n*Nombre:* "+i.title+"\n*Descripcion:* "+i.description+"\n")
+                textData+=("```[#] "+j+"```\n*Nombre:* "+i.title+"\n*Descripcion:* "+i.description+"\n*Link: https://archive.org/details/"+i.identifier)
                 j++;
             }
-            conn.sendMessage(fromId,{ text:"==="+textData})
+            conn.sendMessage(fromId,{ text:textData},{quoted:quotedMsg})
         });
         }).on("error", (err) => {
             jsonData=err.message
