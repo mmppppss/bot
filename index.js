@@ -1,4 +1,59 @@
 /* -- Modulos -- */
+    archives:({args=[]})=>({
+        args,
+        help:"Busca un archivo en archive.org",
+        run(){
+            if(this.args[0]=="-h"){
+                reply(this.help)
+                return this.help
+            }
+         archSearch(args.toString().replaceAll(',',' '),from,msg)
+        }
+    })
+    archives:({args=[]})=>({
+        args,
+        help:"Busca un archivo en archive.org",
+        run(){
+            if(this.args[0]=="-h"){
+                reply(this.help)
+                return this.help
+            }
+         archSearch(args.toString().replaceAll(',',' '),from,msg)
+        }
+    })
+    archives:({args=[]})=>({
+        args,
+        help:"Busca un archivo en archive.org",
+        run(){
+            if(this.args[0]=="-h"){
+                reply(this.help)
+                return this.help
+            }
+         archSearch(args.toString().replaceAll(',',' '),from,msg)
+        }
+    })
+    archives:({args=[]})=>({
+        args,
+        help:"Busca un archivo en archive.org",
+        run(){
+            if(this.args[0]=="-h"){
+                reply(this.help)
+                return this.help
+            }
+         archSearch(args.toString().replaceAll(',',' '),from,msg)
+        }
+    })
+    archives:({args=[]})=>({
+        args,
+        help:"Busca un archivo en archive.org",
+        run(){
+            if(this.args[0]=="-h"){
+                reply(this.help)
+                return this.help
+            }
+         archSearch(args.toString().replaceAll(',',' '),from,msg)
+        }
+    })
 const fs = require('fs')
 const P = require('pino')
 const https = require('https');
@@ -632,8 +687,8 @@ const archDown=async(link,fromId, quotedMsg)=>{
             name=JSON.stringify(jsonData.files).split(":")[0].replaceAll('"','').replace('{','')
             downLink="https://"+jsonData.server+jsonData.dir+name
             type=name.split(".")[1]
-            if(jsonData.files[name].size > 262144000){
-                conn.sendMessage(fromId,{ text:"Archive mayor a 250mb"},{quoted:quotedMsg})
+            if(jsonData.files[name].size > 1073741824){
+                conn.sendMessage(fromId,{ text:"Archivo mayor a 1GB"},{quoted:quotedMsg})
                 return
             }
             jsonData={
