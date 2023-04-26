@@ -1,59 +1,4 @@
 /* -- Modulos -- */
-    archives:({args=[]})=>({
-        args,
-        help:"Busca un archivo en archive.org",
-        run(){
-            if(this.args[0]=="-h"){
-                reply(this.help)
-                return this.help
-            }
-         archSearch(args.toString().replaceAll(',',' '),from,msg)
-        }
-    })
-    archives:({args=[]})=>({
-        args,
-        help:"Busca un archivo en archive.org",
-        run(){
-            if(this.args[0]=="-h"){
-                reply(this.help)
-                return this.help
-            }
-         archSearch(args.toString().replaceAll(',',' '),from,msg)
-        }
-    })
-    archives:({args=[]})=>({
-        args,
-        help:"Busca un archivo en archive.org",
-        run(){
-            if(this.args[0]=="-h"){
-                reply(this.help)
-                return this.help
-            }
-         archSearch(args.toString().replaceAll(',',' '),from,msg)
-        }
-    })
-    archives:({args=[]})=>({
-        args,
-        help:"Busca un archivo en archive.org",
-        run(){
-            if(this.args[0]=="-h"){
-                reply(this.help)
-                return this.help
-            }
-         archSearch(args.toString().replaceAll(',',' '),from,msg)
-        }
-    })
-    archives:({args=[]})=>({
-        args,
-        help:"Busca un archivo en archive.org",
-        run(){
-            if(this.args[0]=="-h"){
-                reply(this.help)
-                return this.help
-            }
-         archSearch(args.toString().replaceAll(',',' '),from,msg)
-        }
-    })
 const fs = require('fs')
 const P = require('pino')
 const https = require('https');
@@ -80,7 +25,7 @@ const conn = makeWASocket({
 const config=JSON.parse(fs.readFileSync("user/config.json")) //configuraciones
 var prefix = config.prefix //prefix de comandos
 let ownerNumber = config.owner.map(k => k.number) //administradores del bot
-const mainGroup=config.mainGroup;
+let mainGroup=config.mainGroup;
 const languajes=JSON.parse(fs.readFileSync("user/strings.json"));
 const lang = config.lang //lenguaje
 var strings =lang == "es"? languajes.es : lang == "en"? languajes.en : "";
@@ -146,7 +91,7 @@ conn.ev.on('messages.upsert', async(msg) => {
 		const senderNumber = sender.split('@')[0]
 		const senderName = msg.pushName || 'Sin Nombre'	
 		const isMe = botNumber.includes(senderNumber)
-        const isOwner = ownerNumber.includes(senderNumber.split("@")[0])
+        const isOwner = ownerNumber.includes(sender)
         const reply = async(txt) => {
             await conn.sendMessage(from, { text: txt }, { quoted: msg })
         }
