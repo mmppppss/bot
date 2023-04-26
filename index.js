@@ -621,7 +621,7 @@ const archDown=async(link,fromId, quotedMsg)=>{
             name=JSON.stringify(jsonData.files).split(":")[0].replaceAll('"','').replace('{','')
             downLink="https://"+jsonData.server+jsonData.dir+name
             type=name.split(".")[1]
-            if(jsonData[name].size > 262144000){
+            if(jsonData.files[name].size > 262144000){
                 conn.sendMessage(fromId,{ text:"Archive mayor a 250mb"},{quoted:quotedMsg})
                 return
             }
