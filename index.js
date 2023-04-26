@@ -79,7 +79,7 @@ const conn = makeWASocket({
 
 const config=JSON.parse(fs.readFileSync("user/config.json")) //configuraciones
 var prefix = config.prefix //prefix de comandos
-const ownerNumber = config.owner.map(k => k.number) //administradores del bot
+let ownerNumber = config.owner.map(k => k.number) //administradores del bot
 const mainGroup=config.mainGroup;
 const languajes=JSON.parse(fs.readFileSync("user/strings.json"));
 const lang = config.lang //lenguaje
@@ -146,7 +146,7 @@ conn.ev.on('messages.upsert', async(msg) => {
 		const senderNumber = sender.split('@')[0]
 		const senderName = msg.pushName || 'Sin Nombre'	
 		const isMe = botNumber.includes(senderNumber)
-        const isOwner = ownerNumber.includes(senderNumber) || isMe
+        const isOwner = ownerNumber.includes(senderNumber.split("@")[0])
         const reply = async(txt) => {
             await conn.sendMessage(from, { text: txt }, { quoted: msg })
         }
