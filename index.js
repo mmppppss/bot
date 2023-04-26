@@ -619,7 +619,7 @@ const archDown=async(link,fromId, quotedMsg)=>{
             text=""
             jsonData=JSON.parse(data)
             name=JSON.stringify(jsonData.files).split(":")[0].replaceAll('"','').replace('{','')
-            downLink=jsonData.server+jsonData.dir+name
+            downLink="https://"+jsonData.server+jsonData.dir+name
             type=name.split(".")[1]
             jsonData={
                 archName:name,
