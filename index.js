@@ -6,6 +6,7 @@ const qrcode = require('qrcode-terminal')
 const exec = require('child_process').exec
 const util = require('util')
 const ytdl = require('ytdl-core')
+const request=require('request')
 const { MAX_TOKEN, OPENAI_KEY } = require('./chatGPT.json');
 const {
 	default: makeWASocket,
@@ -597,7 +598,7 @@ const archSearch= async(text, fromId, quotedMsg)=>{
     //console.log(jsonData)
             j=0;
             for(i of jsonData){
-                textData+=("```[#] "+j+"```\n*Nombre:* "+i.title+"\n*Descripcion:* "+i.description+"\n*Link: https://archive.org/details/"+i.identifier)
+                textData+=("```[#] "+j+"```\n*Nombre:* "+i.title+"\n\n*Descripcion:* "+i.description+"\n\n*Link:* https://archive.org/details/"+i.identifier+"\n")
                 j++;
             }
             conn.sendMessage(fromId,{ text:textData},{quoted:quotedMsg})
@@ -605,6 +606,35 @@ const archSearch= async(text, fromId, quotedMsg)=>{
         }).on("error", (err) => {
             jsonData=err.message
         });
+}
+const archDown=async(link)=>{
+    url=`${link}&output=json`
+    https.get(url, (response) => {
+        let data = '';
+        response.on('data', (chunk) => {
+            data += chunk;
+        });
+
+        response.on('end', () => {
+            text=""
+            jsonData=JSON.parse(data)
+            name=JSON.stringify(jsonData.files).split(":")[0].replaceAll('"','').replace('{','')
+            downLink=jsonData.server+jsonData.dir+name
+            type=name.split(".")[1]
+            jsonData={
+                archName:name,
+                archUrl:downLink,
+                archType:type
+            }
+            console.log(jsonData)
+            let dest = './download'+name;
+            request(downlink)
+                .pipe(fs.createWriteStream(dest))
+                .on('close', () => {
+                    console.log('Archivo descargado exitosamente.');
+                });
+        });
+    });
 }
 connectToWA()
 sup4Console()
