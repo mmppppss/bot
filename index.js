@@ -607,7 +607,7 @@ const archSearch= async(text, fromId, quotedMsg)=>{
     response.on('end', () => {
         jsonData=JSON.parse(data.split('"docs":')[1].replace("}})",""))
         for(i of jsonData){
-            textData+=("\n\n*Nombre:* "+i.title+"\n*Descripcion:* "+i.description.substring(0,420)+"\n*Files:*")
+
             urlDetails=`https://archive.org/details/${i.identifier}&output=json`
             https.get(urlDetails, (response) => {
                 let data2 = '';
@@ -616,6 +616,7 @@ const archSearch= async(text, fromId, quotedMsg)=>{
                 });
 
                 response.on('end', () => {
+                    textData+=("\n\n*Nombre:* "+i.title+"\n*Descripcion:* "+i.description.substring(0,420)+"\n*Files:*")
                     jsonData2=JSON.parse(data2)
                     for(file in jsonData2.files){
                         textData+=("\n   *FileName:* "+file+"\n   *FileSize:* "+jsonData2.files[file].size+"\n   *Downlink:* https://"+jsonData2.server+jsonData2.dir+file)
@@ -632,38 +633,17 @@ const archSearch= async(text, fromId, quotedMsg)=>{
 })
 }
 const archDown=async(link,fromId, quotedMsg)=>{
-    url=`${link}&output=json`
-    https.get(url, (response) => {
-        let data = '';
-        response.on('data', (chunk) => {
-            data += chunk;
-        });
+    linkSplit=link.split("/")
+    type=linkSplit[linkSplit-1].split(".")[1]
+    name=linkSplit[linkSplit-2]+type
 
-        response.on('end', () => {
-            text=""
-            jsonData=JSON.parse(data)
-            name=JSON.stringify(jsonData.files).split(":")[0].replaceAll('"','').replace('{','')
-            downLink="https://"+jsonData.server+jsonData.dir+name
-            type=name.split(".")[1]
-            if(jsonData.files[name].size > 1073741824){
-                conn.sendMessage(fromId,{ text:"Archivo mayor a 1GB"},{quoted:quotedMsg})
-                return
-            }
-            jsonData={
-                archName:name,
-                archUrl:downLink,
-                archType:type
-            }
-            console.log(jsonData)
-            let dest = './download'+name;
-            request(downLink)
-                .pipe(fs.createWriteStream(dest))
-                .on('close', () => {
-                    console.log('Archivo descargado exitosamente.');
-                    conn.sendMessage(fromId,{document:{url:dest}, fileName:name, mimetype:type},{quoted:quotedMsg})
-                });
+    let dest = './download'+name;
+    request(downLink)
+        .pipe(fs.createWriteStream(dest))
+        .on('close', () => {
+            console.log('Archivo descargado exitosamente.');
+            await conn.sendMessage(fromId,{document:{url:dest}, fileName:name, mimetype:type},{quoted:quotedMsg})
         });
-    });
 }
 connectToWA()
 sup4Console()
