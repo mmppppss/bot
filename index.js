@@ -597,26 +597,37 @@ const archSearch= async(text, fromId, quotedMsg)=>{
         let jsonData ={};
         let textData="";
         const search = text
-        const url = `https://archive.org/advancedsearch.php?q=${search}&fl%5B%5D=description&fl%5B%5D=identifier&fl%5B%5D=title&sort%5B%5D=&sort%5B%5D=&sort%5B%5D=&rows=5&page=1&output=json&callback=callback&save=yes#raw`;
-        https.get(url, (response) => {
-            let data = '';
-            response.on('data', (chunk) => {
-              data += chunk;
+        const urlSearch = `https://archive.org/advancedsearch.php?q=${search}&fl%5B%5D=description&fl%5B%5D=identifier&fl%5B%5D=title&sort%5B%5D=&sort%5B%5D=&sort%5B%5D=&rows=1&page=1&output=json&callback=callback&save=yes#raw`;
+    https.get(urlSearch, (response) => {
+        let data = '';
+        response.on('data', (chunk) => {
+            data += chunk;
+        });
+
+    response.on('end', () => {
+        jsonData=JSON.parse(data.split('"docs":')[1].replace("}})",""))
+        for(i of jsonData){
+            textData+=("\n*Nombre:* "+i.title+"\n*Descripcion:* "+i.description+"\n\n *Files:*")
+            urlDetails=`https://archive.org/details/${i.identifier}&output=json`
+            https.get(urlDetails, (response) => {
+                let data2 = '';
+                response.on('data', (chunk) => {
+                    data2 += chunk;
+                });
+
+                response.on('end', () => {
+                    jsonData2=JSON.parse(data2)
+                    for(file in jsonData2.files){
+                        textData+=("\n   FileName: "+file+"\n   FileSize: "+jsonData2.files[file].size+"\nDownlink: https://"+jsonData2.server+jsonData2.dir+file)
+                        }
+                });
             });
-        response.on('end', () => {
-            text=""
-            jsonData=JSON.parse(data.split('"docs":')[1].replace("}})",""))
-    //console.log(jsonData)
-            j=0;
-            for(i of jsonData){
-                textData+=("```[#] "+j+"```\n*Nombre:* "+i.title+"\n\n*Descripcion:* "+i.description+"\n\n*Link:* https://archive.org/details/"+i.identifier+"\n")
-                j++;
-            }
-            conn.sendMessage(fromId,{ text:textData},{quoted:quotedMsg})
-        });
-        }).on("error", (err) => {
-            jsonData=err.message
-        });
+        }
+        conn.sendMessage(fromId,{ text:textData},{quoted:quotedMsg})
+    }).on("error", (err) => {
+        conn.sendMessage(fromId,{ text:"Error:("+err.message},{quoted:quotedMsg})
+    });
+})
 }
 const archDown=async(link,fromId, quotedMsg)=>{
     url=`${link}&output=json`
