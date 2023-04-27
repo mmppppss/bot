@@ -638,7 +638,7 @@ const archDown=async(link,fromId, quotedMsg)=>{
     name=linkSplit[linkSplit.length-2]+"."+type
 
     let dest = './download/'+name;
-    request(downLink)
+    request(link)
         .pipe(fs.createWriteStream(dest))
         .on('close', async() => {
             console.log('Archivo descargado exitosamente.');
