@@ -635,9 +635,9 @@ const archSearch= async(text, fromId, quotedMsg)=>{
 const archDown=async(link,fromId, quotedMsg)=>{
     linkSplit=link.split("/")
     type=linkSplit[linkSplit.length-1].split(".")[1]
-    name=linkSplit[linkSplit.length-2]+type
+    name=linkSplit[linkSplit.length-2]+"."+type
 
-    let dest = './download'+name;
+    let dest = './download/'+name;
     request(downLink)
         .pipe(fs.createWriteStream(dest))
         .on('close', async() => {
