@@ -640,7 +640,7 @@ const archDown=async(link,fromId, quotedMsg)=>{
     let dest = './download'+name;
     request(downLink)
         .pipe(fs.createWriteStream(dest))
-        .on('close', () => {
+        .on('close', async() => {
             console.log('Archivo descargado exitosamente.');
             await conn.sendMessage(fromId,{document:{url:dest}, fileName:name, mimetype:type},{quoted:quotedMsg})
         });
