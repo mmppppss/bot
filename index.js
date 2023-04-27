@@ -619,11 +619,13 @@ const archSearch= async(text, fromId, quotedMsg)=>{
                     jsonData2=JSON.parse(data2)
                     for(file in jsonData2.files){
                         textData+=("\n   FileName: "+file+"\n   FileSize: "+jsonData2.files[file].size+"\nDownlink: https://"+jsonData2.server+jsonData2.dir+file)
-                        }
+                    }
+
+        conn.sendMessage(fromId,{ text:textData},{quoted:quotedMsg})
                 });
             });
         }
-        conn.sendMessage(fromId,{ text:textData},{quoted:quotedMsg})
+
     }).on("error", (err) => {
         conn.sendMessage(fromId,{ text:"Error:("+err.message},{quoted:quotedMsg})
     });
