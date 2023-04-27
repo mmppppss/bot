@@ -597,7 +597,7 @@ const archSearch= async(text, fromId, quotedMsg)=>{
         let jsonData ={};
         let textData="";
         const search = text
-        const urlSearch = `https://archive.org/advancedsearch.php?q=${search}&fl%5B%5D=description&fl%5B%5D=identifier&fl%5B%5D=title&sort%5B%5D=&sort%5B%5D=&sort%5B%5D=&rows=1&page=1&output=json&callback=callback&save=yes#raw`;
+        const urlSearch = `https://archive.org/advancedsearch.php?q=${search}&fl%5B%5D=description&fl%5B%5D=identifier&fl%5B%5D=title&sort%5B%5D=&sort%5B%5D=&sort%5B%5D=&rows=3&page=1&output=json&callback=callback&save=yes#raw`;
     https.get(urlSearch, (response) => {
         let data = '';
         response.on('data', (chunk) => {
@@ -607,7 +607,7 @@ const archSearch= async(text, fromId, quotedMsg)=>{
     response.on('end', () => {
         jsonData=JSON.parse(data.split('"docs":')[1].replace("}})",""))
         for(i of jsonData){
-            textData+=("\n*Nombre:* "+i.title+"\n*Descripcion:* "+i.description+"\n\n *Files:*")
+            textData+=("\n\n*Nombre:* "+i.title+"\n*Descripcion:* "+i.description.substring(0,420)+"\n*Files:*")
             urlDetails=`https://archive.org/details/${i.identifier}&output=json`
             https.get(urlDetails, (response) => {
                 let data2 = '';
@@ -618,7 +618,7 @@ const archSearch= async(text, fromId, quotedMsg)=>{
                 response.on('end', () => {
                     jsonData2=JSON.parse(data2)
                     for(file in jsonData2.files){
-                        textData+=("\n   FileName: "+file+"\n   FileSize: "+jsonData2.files[file].size+"\nDownlink: https://"+jsonData2.server+jsonData2.dir+file)
+                        textData+=("\n   *FileName:* "+file+"\n   *FileSize:* "+jsonData2.files[file].size+"\n   *Downlink:* https://"+jsonData2.server+jsonData2.dir+file)
                     }
 
         conn.sendMessage(fromId,{ text:textData},{quoted:quotedMsg})
