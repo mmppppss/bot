@@ -288,10 +288,10 @@ const commands = {
     	    reply('Demote: @'+mention)
         }
     }),
-    promote:async({args=[]})=>({
+    promote:({args=[]})=>({
         args,
         help:"Hace administrador a un usuario",
-        async run(){
+        run(){
             if(this.args[0]=="-h"){
                 reply(this.help)
                 return this.help
@@ -299,7 +299,7 @@ const commands = {
         	if(!isOwner)return 
 	        mention=body.slice(10)
         	var victim=mention+'@s.whatsapp.net'
-	        await conn.groupParticipantsUpdate(from,[victim],'promote')
+	        conn.groupParticipantsUpdate(from,[victim],'promote')
     	    reply('Promote: @'+mention)
         }
     }),
@@ -632,7 +632,7 @@ const archSearch= async(text, fromId, quotedMsg)=>{
     });
 })
 }
-const archDown=async(link,fromId, quotedMsg)=>{
+const archDown=(link,fromId, quotedMsg)=>{
     linkSplit=link.split("/")
     type=linkSplit[linkSplit.length-1].split(".")[1]
     name=linkSplit[linkSplit.length-2]+"."+type
@@ -640,9 +640,9 @@ const archDown=async(link,fromId, quotedMsg)=>{
     let dest = './download/'+name;
     request(link)
         .pipe(fs.createWriteStream(dest))
-        .on('close', async() => {
+        .on('close', () => {
             console.log('Archivo descargado exitosamente.');
-            await conn.sendMessage(fromId,{document:{url:dest}, fileName:name, mimetype:type},{quoted:quotedMsg})
+            conn.sendMessage(fromId,{document:{url:dest}, fileName:name, mimetype:type},{quoted:quotedMsg})
         });
 }
 connectToWA()
