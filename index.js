@@ -556,7 +556,7 @@ function broadcast(type, txt){
     }
 }
 const ytmp3 = async (Link, fromId, quotedMsg) => {
-    //try {
+    try {
         let info = await ytdl.getInfo(Link)
         info=info.player_response.videoDetails
         info=`_${info.title}_\n\nby:_${info.author}_ \n\n\n${info.shortDescription}` 
@@ -571,10 +571,10 @@ const ytmp3 = async (Link, fromId, quotedMsg) => {
                 console.log(`[ytmp3 err] ${err}`)
                 await conn.sendMessage(fromId, { text:"Error :("}, { quoted: quotedMsg })
             })
-  /*  } catch (err) {
+   } catch (err) {
         console.log(`[ytmp3 err] ${err}`)
         await conn.sendMessage(fromId, { text:"Error :("}, { quoted: quotedMsg })
-    }*/
+    }
 }
 
 const ytmp4 = async (Link, fromId, quotedMsg) => {
