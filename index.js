@@ -329,7 +329,7 @@ const commands = {
                 reply(this.help)
                 return this.help
             }
-        ytmp3(args[1],from,msg)
+        ytmp3(args[0],from,msg)
         }
     }),
     mp4:({args=[]})=>({
@@ -340,7 +340,7 @@ const commands = {
                 reply(this.help)
                 return this.help
             }
-            ytmp4(args[1],from,msg)
+            ytmp4(args[0],from,msg)
         }
     }),
     archives:({args=[]})=>({
