@@ -567,7 +567,7 @@ const ytmp3 = async (Link, fromId, quotedMsg) => {
             .on('finish', async () => {
                 await conn.sendMessage(fromId, { audio: fs.readFileSync(mp3File), mimetype: 'audio/mpeg', caption:info }, { quoted: quotedMsg })
                 fs.unlinkSync(mp3File)
-            }).on('error', ()=>{
+            }).on('error', async()=>{
                 console.log(`[ytmp3 err] ${err}`)
                 await conn.sendMessage(fromId, { text:"Error :("}, { quoted: quotedMsg })
             })
