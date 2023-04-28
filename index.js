@@ -371,7 +371,7 @@ if(isCmd){
     try{
         commands[command]({args:args}).run();
     }catch(e){
-        console.log(e);
+        console.log("[Commnad Ejecution]"+e);
         suggest=""
         porc=100/command.length
         sim=0
@@ -476,7 +476,7 @@ if(body.startsWith('>')){
 } catch (e) {
 			const isError = String(e)
 			
-			console.log(isError)
+			console.log("Big err"+isError)
 		}
 })
 
@@ -569,7 +569,7 @@ const ytmp3 = async (Link, fromId, quotedMsg) => {
                 fs.unlinkSync(mp3File)
             })
     } catch (err) {
-        console.log(`${err}`)
+        console.log(`[ytmp3 err] ${err}`)
         await conn.sendMessage(fromId, { text:"Error :("}, { quoted: quotedMsg })
     }
 }
@@ -588,7 +588,7 @@ const ytmp4 = async (Link, fromId, quotedMsg) => {
                 fs.unlinkSync(mp4File)
             })
     } catch (err) {
-        console.log(`${err}`)
+        console.log(`[ytmp4] ${err}`)
         await conn.sendMessage(fromId, { text:"Error :("}, { quoted: quotedMsg })
     }
 }
@@ -632,7 +632,7 @@ const archSearch= async(text, fromId, quotedMsg)=>{
     });
 })
 }
-const archDown=(link,fromId, quotedMsg)=>{
+const archDown=async(link,fromId, quotedMsg)=>{
     linkSplit=link.split("/")
     type=linkSplit[linkSplit.length-1].split(".")[1]
     name=linkSplit[linkSplit.length-2]+"."+type
