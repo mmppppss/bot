@@ -30,6 +30,7 @@ const languajes=JSON.parse(fs.readFileSync("user/strings.json"));
 const lang = config.lang //lenguaje
 var strings =lang == "es"? languajes.es : lang == "en"? languajes.en : "";
 const users=JSON.parse(fs.readFileSync("database/users.json")); //usuarios registrados
+const banned=[]
 const noreg=[];
 let reg=config.reg
 let disable=config.disable;
@@ -99,6 +100,10 @@ conn.ev.on('messages.upsert', async(msg) => {
            conn.sendMessage(from, {react:{text:emoji, key:msg.key}})
         }
         if(isCmd){
+            if(banned.includes(sender)|| banned.includes(from)){
+              reply("chat baneado")
+                return
+            }
             if(disable.includes(command)){
                 reply(strings.commandDisable)
                 return
